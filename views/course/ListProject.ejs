@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../../public/stylesheets/popup.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+   
+    
+    <style>
+    .wrapper{
+            min-height: 100%;
+            margin-bottom: -50px;
+        }
+        .footer,.push{
+            height: 50px;
+        }
+        .checked {
+  color: orange;
+}
+    </style>
+
+</head>
+
+<body style="height: 100%;">
+    <% include ../viewcommn/instructornavpost.ejs%>
+
+    <div style="margin-right: 5%;margin-left: 5%;background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;">
+        <h3><i class="fa fa-laptop"></i>&nbsp;<b><%= courses.courseName %> project list</b>
+            <a href="../../course/storyboard/<%=(courses.id)%>"><button type="submit" class="btn btn-info" id="addBtn" style="margin-right: 2%;float: right;"><i class="fa fa-map" style="color:white;"></i> 
+                Board
+              </button></a>
+        </h3>
+        <p>Here is all the project that is available for that course.</p>  
+    </div>
+    <br>
+    <div style="height: 100%; margin-left:5%;margin-right:5%;">
+        <div style="text-transform: capitalize;">
+            <!-- <div class="col-md-9 "> -->
+
+
+<% if(Project.length >0){ %>
+   
+        <div >
+        
+            <!-- <h3><b>Projects List</b></h3>
+            <p>Here is all the project that is available for course <strong style="font-size: 25px;"><%= courses.courseName %></strong>.</p> -->
+            <!-- <a href="/course/list_instructor" class="btn btn-info" style="color: white;">Add Project <i class="fa fa-plus"></i></a><br><br> -->
+
+    <table class="table" style="text-align:center;text-transform: capitalize;">
+        <thead >
+            <tr>
+              
+                <th>course</th>
+                <th>project</th>
+                <th>Description</th>
+                <th>Limted students</th>
+                <%if(user.userRole == 'instructor'){%>
+                <th>edit</th>
+                <th>delete</th>
+                <%}%>
+                </tr>
+        </thead>
+        <tbody>
+            <% for (let project of Project) { %>
+                <%if(project.CourseName==courses.courseName){ %> 
+         <tr>
+            
+                <td><%= project.CourseName%></td>
+                <td><%= project.projectName%></td>
+                <td><%= project.projectDescription%></td>
+                <td><%= project.NumberOfStudent%></td>
+    
+                <%if(user.userRole == 'instructor'){%>
+                    <td><a href="/course/editproject/<%= project.id%>?edit=true" class=" btn btn-info"><i class="fa fa-edit"></i> edit</a></td>
+                    <td> <!-- <a onclick="Delete()" class="btn btn-danger" style="color: white;"><i class="fas fa-times"></i> delete</a> -->
+                        <form action="/course/deleteee/<%= project.id %>" method="POST">
+                            <button type="submit"  class="btn btn-danger" style="color: white;"><i class="fas fa-times"></i> Delete</button>
+                        </form>
+                    </td>
+                </tr>
+
+                    <%}%>
+                <% } %>
+            <%}%>
+       </tbody>
+    </table>
+   
+      </div><% } else { %>
+        <div >
+            <div style="color: #555;background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;margin-bottom: 25%;" >
+                <form class="gp-form" action="" method="POST" >
+                            
+                    <div>
+                        <h1><i class="fa fa-graduation-cap"></i> &nbsp; <b>No Project Found!</b></h1>
+                        <p>There's no added project, go to add project to add project course.</p>
+                    </div>
+                    </div>
+                </form>
+            </div>
+        <% } %>
+        </div>
+    </div>
+ 
+<div class="push">
+    <% include ../viewcommn/footer.ejs%>
+
+</div>
+<script src="../../public/javascripts/popup.js">
+</script>
+
+<script>
+    function Delete() {
+        alert("Project deleted successfully");
+    }
+</script>
+</body>
+
+
+</html>

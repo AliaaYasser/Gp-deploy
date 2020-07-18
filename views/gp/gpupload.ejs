@@ -1,0 +1,163 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body style="height: 100%;">
+  <% if (user.userRole== 'instructor' ) { %>
+    <% include ../viewcommn/instructornavpost.ejs%>
+  <% } else { %>
+    <% include ../viewcommn/studentnavpost.ejs%>
+  <% } %>
+
+  <div style="background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;margin-left: 5%;margin-right: 5%;">
+    <h3><i class="fa fa-graduation-cap"></i>&nbsp;<b><%= teamleadername %> Documents</b></h3>
+    <p>Please, note that this board is shared between the supervisor and teamleader only.</p>    
+</div>
+<div style="width: 90%;margin-left: 5%;">
+      <div >
+      
+<div>
+</hr>
+</hr>
+<div >
+<div > 
+   <div >
+  <br>
+    <form action="../../uploadgpM/" id="myForm" method="POST" enctype="multipart/form-data" style="float: right;">
+      <input type="file" name="file" id="file" class="btn btn-info" required>
+      <input type="hidden" name="doctorname"  value="<%= doctorname %>">
+      <input type="hidden" name="teamleasder"  value="<%= teamleadername %>">
+      <button class="btn btn-light" type="submit"><i class="fa fa-upload" style="color: #333;"></i> Upload </button>
+  </form>
+  <br>
+  </br>
+  <% var i=0; %>
+<% if(files){ %>
+
+      <% files.forEach(function(file) { %>
+          <table class="table" style="text-align:left;border: 2px solid rgba(27, 151, 170,0.08);background-color: white;border-radius: 50%;">
+            <!-- <thead>
+            <th style="width: 60%;">Materials</th>
+            <th style="width: 30%;">Date</th>
+            <th style="width: 5%;">Download</th>
+            <th style="width: 5%;">Delete</th>
+          </thead> -->
+          <tbody>
+        <tr>
+          <td style="width: 60%;">
+            <% if(file.isImage) { %>
+                <a onclick="myFunction('<%= file._id %>')" style="color:#333;cursor: pointer;"> <i class="fa fa-image"></i> <%= file.filename %></a>  
+                <div id="<%= file._id %>" style="display: none;">   
+                  <img src="/image/<%= file.filename %>" alt="" style="padding-bottom: 0%;float: left; width:20%">
+                </div>
+            <% } else if(file.contentType == 'video/mp4') { %>
+              <a onclick="myFunction('<%= file._id %>')" style="color:#333;cursor: pointer;"> <i class="fa fa-film"></i><%= file.filename %></a>  
+              <div id="<%= file._id %>" style="display: none;">   
+                <video width="50%" controls style="padding-bottom: 0%;">
+                  <source src="/image/<%= file.filename %>" type="<%= file.contentType %>" >
+                </video>                  
+                </div>
+              <% } else if(file.contentType === 'audio/mp3' || file.contentType === 'audio/mpeg') { %>
+                <a onclick="myFunction('<%= file._id %>')" style="color:#333;cursor: pointer;"> <i class="fa fa-volume-up"></i> &nbsp; <%= file.filename %></a>  
+                <div id="<%= file._id %>" style="display: none;">   
+                  <audio  controls  style="padding-bottom: 0%;width: 50%;" >
+                    <source src="/image/<%= file.filename %>" type="<%= file.contentType %>">
+                  </audio>                 
+                  </div>   
+              <% } else { %>
+                <h5><i class="fa fa-file"></i> &nbsp; <%= file.filename %></h5>
+                <% } %>
+          </td>
+         <td style="width: 30%;"><%= time[i].date %> </td>
+         <td style="width: 5%;">
+          <a href="/Download/<%= file.filename %>"><button class="btn" type="submit"><i class="fa fa-download" style="color: #333;"></i> </button></a>
+        </td style="width: 5%;">
+        <td>
+          <a ><form method="POST" action="/filess/<%= file._id %>">
+            <a style="margin-left: 10%;"><button class="btn" type="submit" style="color: white;"><i class="fa fa-trash" style="color: rgb(202, 48, 48);"></i> </button></a>
+         </form></a>
+        </td>
+        </tr>
+      </tbody>
+    </table>
+   </div>
+        <% i++; %>
+    <% }) %>
+
+      <% } else { %>
+        <p>No files to show</p>
+        <% } %>
+</div></div>
+<br>
+</div>
+</div>
+      </div>
+    </div>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+    <div style="margin-top: 15%;">
+      <% include ../viewcommn/footer.ejs%>
+    </div>
+    <script>
+      function detiels(divHeader,divBody){
+        var headid="#"+divHeader;
+        var bodyid='#'+divBody;
+      $(bodyid).slideToggle("fast");
+      var element = document.getElementById(divHeader);
+   element.classList.toggle("activ");
+      };
+      function settime(dedline,id){
+          CountDownTimer(Date.parse(dedline), id);
+      }
+          function CountDownTimer(dt, id)
+          {
+            if(dt){
+              var end = new Date(dt);
+              var _second = 1000;
+              var _minute = _second * 60;
+              var _hour = _minute * 60;
+              var _day = _hour * 24;
+              var timer;
+              function showRemaining() {
+                  var now = new Date();
+                  var distance = end - now;
+                  if (distance < 0) {
+                      clearInterval(timer);
+                      document.getElementById(id).innerHTML = 'EXPIRED!';
+                      return;
+                  }
+                  var days = Math.floor(distance / _day);
+                  var hours = Math.floor((distance % _day) / _hour);
+                  var minutes = Math.floor((distance % _hour) / _minute);
+                  var seconds = Math.floor((distance % _minute) / _second);
+                  document.getElementById(id).innerHTML = days + 'days ';
+                  document.getElementById(id).innerHTML += hours + 'hrs ';
+                  document.getElementById(id).innerHTML += minutes + 'mins ';
+                  document.getElementById(id).innerHTML += seconds + 'secs';
+              }
+              timer = setInterval(showRemaining, 1000);
+            }
+            else{
+              document.getElementById(id).innerHTML = 'No Dedline';
+            }
+          }
+</script>   
+<script>
+  function myFunction(name) {
+    var x = document.getElementById(name);    
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
+  }
+  </script>    
+  </body>
+  </html>

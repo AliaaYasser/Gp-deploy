@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <style>
+        .wrapper {
+            min-height: 100%;
+            margin-bottom: -50px;
+        }
+
+        .footer,
+        .push {
+            height: 50px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <% include ../viewcommn/studentnavpost.ejs%>
+    <div style="margin-right: 5%;margin-left: 5%;background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;">
+        <h3><i class="fa fa-laptop"></i>&nbsp;<b><%=courses.courseName%> project form</b>
+            <a href="../../course/storyboard/<%=(courses.id)%>"><button type="submit" class="btn btn-info" id="addBtn" style="margin-right: 2%;float: right;"><i class="fa fa-map" style="color:white;"></i> 
+                Board
+              </button></a>
+        </h3>
+        <p>Here is the project registration form.</p>  
+    </div>
+    <br>
+    <div style="margin-right: 5%;margin-left: 5%;background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;">    
+        <h4>Project form</h4> <br>
+        <form action="/course/form" method="POST">
+            <div class="split right">
+                <div class="col-sm-10 my-1">
+                    <% for (let project of Project) { %>
+                        <%if(project.CourseName==courses.courseName){ %>
+                    <%for(var i=1 ;i<=project.NumberOfStudent;i++){%>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Team Memmber</span>
+                        </div>
+                        <input type="text" class="form-control" name="TeamName" required>
+                    </div>
+                    <%}break}%>
+                    <%}%>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="material-icons">
+                                   toc
+                                </i></div>
+                        </div>
+                        <select name="projectName" class="form-control" id="projectName">
+                            <option>Select project</option>
+                            <% for (let project of Project) { %>
+                            <%if(project.CourseName==courses.courseName){ %>
+                            <option><%= project.projectName %></option>
+                            <%}%>
+                            <% } %>
+                        </select>
+                    </div>
+                </div>
+                <input type="hidden" value="<%= courses.courseName%>" name="courseName">
+                <button class="btn btn-info" style="margin-left: 37%;" type="submit">Send</button>
+            </div>
+        </form>
+    </div>
+
+
+<div class="push" style="margin-top:10%">
+
+<% include ../viewcommn/footer.ejs%>
+</div>
+
+</body>
+
+</html>

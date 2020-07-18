@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+          <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+    .wrapper{
+            min-height: 100%;
+            margin-bottom: -50px;
+        }
+        .footer,.push{
+            height: 50px;
+        }
+        .checked {
+  color: orange;
+}
+    </style>
+
+</head>
+
+<body style="height: 100%;" >
+    <% include ../viewcommn/adminComman.ejs%>
+<% if(courses.length >0){ %>
+    <% if(status == 'Opened'){ %>
+<div style="height: 100%;width:90%;margin-left:5%;margin-right:10% ">
+            <div style="text-transform: capitalize;">
+                <div>
+                    <div style="background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;">
+                        <h3><i class="fa fa-user"></i>&nbsp;<b> Courses List </b></h3>
+                        <p>Here is a list of courses available to enroll this student to.</p>    
+                </div>
+     <form action="/course/enrollmultipleadmin/<%= uid %>" method="post" >
+              <table class="table" style="text-align:left">
+                <thead>
+                <tr>
+                  <th>Select </th>
+                  <th>Name</th>
+                  <th>Hourse</th>
+                  <th>Students</th>
+                  <th>department</th>
+                  <th >rate</th>
+                  <th>Register Course</th>
+                  </tr>
+            </thead>
+            <tbody>
+                <% for (let course of courses) { %>
+                <tr>
+                 <td>  <div class="checkbox">
+                        <label><input name="selected" type="checkbox" value="<%= (course._id) %>"> </label>
+                         </div> 
+                  </td>
+                  <td><%= course.courseName%></td>
+                  <td><%= course.hourse%></td>
+                  <td><%= course.numOfStudent%></td>
+                  <td><%= course.department%></td>
+    
+                  <td>
+                        <progress value="<%= (course.courseRate) %>" max="100"></progress> <%= (course.courseRate) %> %
+                    <td><a id="modalBtn" class="btn btn-info" style="color: white;"  href="/course/enrollment/<%=course.id%>/<%= uid %>/null/null" >  <i class="fa fa-file-pdf-o" style="color: white;"></i> Register </a>
+                </tr>
+    
+                <% } %>
+            </tbody>
+        </table> 
+        <div class="text-center" style="float: left;"><button type="submit" class=" btn btn-info" style="color: white;">Enroll selected courses</button></div><br>
+               
+    </form> 
+          </div>
+            </div>
+    </div>
+        <% } else {  %>
+            <div style="margin:5%;" >
+                <form class="gp-form" action="" method="POST" >
+                    <div>
+                        <h2><b>Registration is not available now!</b></h2>
+                        <p>It's not the time to register courses.</p>
+                    </div>
+                </form>
+            </div>
+            <% } %>
+
+    <% } else { %> 
+        <div style="margin:5%;" >
+            <form class="gp-form" action="" method="POST" >
+                <div>
+                    <h1>No Courses Available!</h1>
+                </div>
+                </div>
+            </form>
+        </div>
+        <% }%>
+<div style="margin-top: 15%;">
+<% include ../viewcommn/footer.ejs%>
+</div>
+</body>
+
+
+</html>
+

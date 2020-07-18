@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../../public/stylesheets/popup.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+
+    <style>
+        .wrapper {
+            min-height: 100%;
+            margin-bottom: -50px;
+        }
+
+        .footer,
+        .push {
+            height: 50px;
+        }
+
+        .checked {
+            color: orange;
+        }
+    </style>
+
+</head>
+
+<body style="height: 100%;">
+    <% include ../viewcommn/instructornavpost.ejs%>
+    <div style="margin-right: 5%;margin-left: 5%;background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;">
+        <h3><i class="fa fa-laptop"></i>&nbsp;<b><%= courses.courseName %> registered users</b>
+            <a href="../../course/storyboard/<%=(courses.id)%>"><button type="submit" class="btn btn-info" id="addBtn" style="margin-right: 2%;float: right;"><i class="fa fa-map" style="color:white;"></i> 
+                Board
+              </button></a>
+        </h3>
+        <p>Here is a list of all people registered in course project.</p>  
+    </div>
+    <div style="height: 100%; margin-left:5%;margin-right: 5%;">
+        <div style="text-transform: capitalize;">
+            <!-- <div class="col-md-9 "> -->
+
+
+            <% if(Form.length >0){ %>
+
+            <div>
+
+                <!-- <h3 style="color: teal;"><b>Projects Regestir List</b></h3>
+                <p>Here is all the Regestir that is available for course <strong
+                        style="font-size: 25px;color: teal;"><%= courses.courseName %></strong>.</p> -->
+                <!-- <a href="/course/list_instructor" class="btn btn-info" style="color: white;">Add Project <i class="fa fa-plus"></i></a><br><br> -->
+
+                <table class="table" style="text-align:center;text-transform: capitalize;">
+                    <thead >
+                        <tr>
+
+                            <th>course</th>
+                            <th>project</th>
+                            <th>Team Memmber</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (let form of Form) { %>
+                        <%if(form.courseName==courses.courseName){ %>
+                        <tr>
+
+                            <td><%= form.courseName%></td>
+                            <td><%= form.projectName%></td>
+                            <td><%= form.TeamName%></td>
+                            <% } %>
+                            <%}%>
+       </tbody>
+    </table>
+   
+      </div> <% } else { %>
+                            <h1>No Team Found!</h1>
+                            <% } %>
+        </div>
+    </div>
+
+                            <div class="push">
+                                <% include ../viewcommn/footer.ejs%>
+
+                            </div>
+                            <script src="../../public/javascripts/popup.js">
+                            </script>
+
+                            <script>
+                                function Delete() {
+                                    alert("Project deleted successfully");
+                                }
+                            </script>
+</body>
+
+
+</html>

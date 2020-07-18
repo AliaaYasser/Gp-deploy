@@ -1,0 +1,156 @@
+<% if(role == 'student') {%>
+<% include ../viewcommn/studentnav.ejs%>
+<div style="width: 90%; margin-left:5%;margin-right:10%">
+<div class="row"style="text-transform: capitalize;">
+    <div class="card-body">
+    <div style="color: #555;background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;margin-bottom: 2%;" >
+        
+        <h3><i class="fa fa-graduation-cap"></i><b> &nbsp; Senior requests</b>
+        
+            <a href="../gp/add"><button type="submit" class="btn btn-info" id="addBtn" style="margin-right: 2%;float: right;"><i class="fa fa-graduation-cap" style="color:white;"></i> 
+                Senior Form
+              </button></a>
+        
+        </h3>
+        <p>Here is all your sent resquests that has been sent.</p>
+    </div>
+    <br>
+<h5><b>Accepted Requests</b></h5>
+  <table class="table" style="text-align:right;width: 100%;">
+        <!-- <thead class="thead-light">
+            <tr>
+            <th>Doctor</th>
+            <th>status</th>
+            <th>Number</th>
+            <th>Options</th>
+
+              </tr>
+        </thead> -->
+        <tbody>
+
+            <% for (let g of list) { %>
+                <% if ( g.status  == 'Accepted') { %>
+                <tr>
+                  <td style="width: 30%;text-align:left">Dr. <%= g.doctorname %></td>
+                  <!-- <td style="width: 10%;"><%= g.status %></td> -->
+                  <td style="width: 20%;text-align:left"><%= g.number %> members</td>
+                  <td style="width: 50%;margin-left: 100%;"><div class="btn-group">
+                    <% if (g.status == 'Accepted' ) { %>
+                    <a href="/chat/chatting/<%=g.chatID%>"   class=" btn btn-info"><i class="fa fa-comments"></i> Chat</a>
+                    <a href="../viewgpmatirals/<%= g.teamleader %>/<%= g.doctorname %>"   class=" btn btn-success"><i class="fa fa-book"></i> Documents</a>
+                    <% } %>
+                    <% if(status == 'Opened'){ %>
+                    <a href="/gp/delete/<%=g.id%>"   class=" btn btn-danger"><i class="fa fa-trash"></i> Delete </a>
+                    <% } %>
+                    <a href="/gp/members"   class=" btn btn-dark"><i class="fa fa-user"></i> Members </a>
+                </div></td>
+                </tr>
+                <% } }%>     
+        </tbody>
+    </table>
+    <br>
+    <hr>
+    <br>
+    <h5><b>Pending Requests</b></h5>
+      <table class="table" style="text-align:right;width: 100%;">
+            <!-- <thead class="thead-light">
+                <tr>
+                <th>Doctor</th>
+                <th>status</th>
+                <th>Number</th>
+                <th>Options</th>
+    
+                  </tr>
+            </thead> -->
+            <tbody>
+    
+                <% for (let g of list) { %>
+                    <% if ( g.status  != 'Accepted') { %>
+                    <tr>
+                      <td style="width: 30%;text-align:left">Dr. <%= g.doctorname %></td>
+                      <!-- <td style="width: 10%;"><%= g.status %></td> -->
+                      <td style="width: 20%;text-align:left"><%= g.number %> members</td>
+                      <td style="width: 50%;margin-left: 100%;"><div class="btn-group">
+                        <% if(status == 'Opened'){ %>
+                        <a href="/gp/delete/<%=g.id%>"   class=" btn btn-danger"><i class="fa fa-trash"></i> Delete </a>
+                        <% } %>
+                        <a href="/gp/members"   class=" btn btn-dark"><i class="fa fa-user"></i> Members </a>
+                    </div></td>
+                    </tr>
+                    <% } }%>     
+            </tbody>
+        </table>
+</div>
+</div><br>
+</div>
+<% } else if(role == 'instructor') { %>
+    <% include ../viewcommn/instructornav.ejs%>
+    <% if (list.length > 0) { %>
+
+    <div class="container mt-5"style="height: 100%; width:50%;margin-left:25.5%">
+        <div class="row"style="text-transform: capitalize;">
+            <div class="card-body">
+                <h3><b> Graduation Project Requests</b></h3>
+        <p>Here is all your resquests,Please choose your teams.</p>
+            
+          <table class="table" style="text-align:center">
+                <thead class="thead-dark">
+                    <tr>
+                    <th>Team Leader</th>
+                    <th>Idea</th>
+                    <th>Description</th>
+                    <th>Number</th>
+                    <th>Options</th>
+                      </tr>
+                </thead>
+                <tbody>
+        
+                    <% for (let g of list) { %>
+                        <tr>
+                          <td><%= g.teamleader %></td>
+                          <td><%= g.ideatitle %></td>
+                          <td><%= g.ideadesc %></td>
+                          <td><%= g.number %></td>
+                          <td><div class="btn-group">
+                            <a href="/gp/accept/<%=g.id%>"   class=" btn btn-info"><i class="fa fa-plus"></i> Accept</a>
+                            <a href="/gp/reject/<%=g.id%>"   class="btn btn-danger"><i class="fas fa-times"></i> Reject</a>
+                            </div></td>
+                        </tr>
+                        <% } %>     
+                </tbody>
+            </table>
+        </div>
+        </div>
+        </div>
+        <% } else {  %>
+            <div style="margin:5%;" >
+                <form class="gp-form" action="" method="POST" >
+                            
+                    <div >
+                        <h2><b>There is no available requests!</b></h2>
+                        <p>You need to send a request first to see it's status.</p>
+                    </div>
+                    </div>
+                </form>
+            </div>
+            <% } %>
+
+    <% } else { %> 
+        <div style="margin:5%;" >
+            <form class="gp-form" action="" method="POST" >
+                <div>
+                    <h1>You don't have permission</h1>
+                </div>
+                </div>
+            </form>
+        </div>
+        <% }%>
+        <div style="margin-top: 5%;">
+            <% include ../viewcommn/footer.ejs%>
+          </div>
+
+</body>
+
+
+</html>
+

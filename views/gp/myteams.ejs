@@ -1,0 +1,101 @@
+<% if(role == 'instructor') { %>
+        <% include ../viewcommn/instructornav.ejs%>
+    
+        <div style="height: 100%;margin-left:5%;margin-right:5%">
+            <div style="text-transform: capitalize;">
+                <div class="card-body">
+                <div style="color: #555;background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;margin-bottom: 2%;" >
+                
+                    <h3> <i class="fa fa-graduation-cap"></i><b> &nbsp; Seniors Page</b></h3>
+                    <p>Here is a list of all the teams that need to contact with you.</p>
+                </div>
+                <br>
+              <h5><b>Accepted Teams</b></h5>
+              <table class="table" style="text-align:left">
+                    <!-- <thead class="thead-dark">
+                        <tr>
+                        <th>Team Leader</th>
+                        <th>Idea</th>
+                        <th>Description</th>
+                        <th>Number</th>
+                        <th>Options</th>
+                          </tr>
+                    </thead> -->
+                    <tbody>
+            
+                        <% for (let g of list) { %>
+                        <% if (g.status == 'Accepted') { %>
+                            <tr>
+                              <td><%= g.teamleader %></td>
+                              <td><%= g.ideatitle %></td>
+                              <td><%= g.ideadesc %></td>
+                              <td><%= g.number %></td>
+                              <td style="margin-left: 100%;width: 28%;"><div class="btn-group">
+                                <a href="/chat/chatting/<%=g.chatID%>"   class=" btn btn-info"><i class="fa fa-comments"></i> Chat</a>
+                                <a href="../../viewgpmatirals/<%= g.teamleader %>/<%= g.doctorname %>"   class=" btn btn-success"> <i class="fa fa-book"></i> documents</a>
+                                <% if(status == 'Opened'){ %>
+                                <a href="/gp/delete/<%=g.id%>" class=" btn btn-danger"><i class="fa fa-trash"></i> Delete</a>
+                                <% } %>
+                                </div></td>
+                            </tr>
+                            <% }} %>     
+                    </tbody>
+                </table>
+
+                <br>
+                <hr>
+                <br>
+                <h5><b>Pending Teams</b></h5>
+                <table class="table" style="text-align:left">
+                      <!-- <thead class="thead-dark">
+                          <tr>
+                          <th>Team Leader</th>
+                          <th>Idea</th>
+                          <th>Description</th>
+                          <th>Number</th>
+                          <th>Options</th>
+                            </tr>
+                      </thead> -->
+                      <tbody>
+              
+                          <% for (let g of list) { %>
+                          <% if (g.status != 'Accepted') { %>
+                              <tr>
+                                <td><%= g.teamleader %></td>
+                                <td><%= g.ideatitle %></td>
+                                <td style="width: 30%;"><%= g.ideadesc %></td>
+                                <td><%= g.number %></td>
+                                <td style="margin-left: 100%;width: 18%;"><div class="btn-group">
+                                    <a href="/gp/accept/<%=g.id%>"   class=" btn btn-info"><i class="fa fa-plus"></i> Accept</a>
+                                    <a href="/gp/reject/<%=g.id%>"   class="btn btn-danger"><i class="fas fa-times"></i> Reject</a>        
+                                  </div></td>
+                              </tr>
+                              <% }} %>     
+                      </tbody>
+                  </table>
+  
+            </div>
+            </div>
+            <br><br>
+            </div>    
+        <% } else { %> 
+            <div style="margin:5%;" >
+             <div style="color: #555;background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;margin-bottom: 25%;" >
+                <form class="gp-form" action="" method="POST" >
+                    <div>
+                        <h1>You don't have permission</h1>
+                    </div>
+                    </div>
+                </form>
+                </div>
+            </div>
+            <% }%>
+            <div style="margin-top: 5%;">
+                <% include ../viewcommn/footer.ejs%>
+              </div>    
+    </body>
+    
+    
+    </html>
+    
+    

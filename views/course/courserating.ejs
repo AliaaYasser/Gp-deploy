@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  <style>
+    .wrapper{
+            min-height: 100%;
+            margin-bottom: -50px;
+        }
+        .footer,.push{
+            height: 50px;
+        }
+        .checked {
+  color: orange;
+}
+    </style>
+
+</head>
+
+<body  style="height: 100%;">
+<% include ../viewcommn/studentnav.ejs%>
+<% if(courses.length >0){ %>
+<div class="Contanier" style="width: 90%;margin-left: 5%;margin-right: 5%;">
+  <div style="background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;">
+    <h3><i class="fa fa-star"></i>&nbsp;<b>Courses to Rate</b></h3>
+    <p>Here are all the courses you can rate.</p>
+</div>
+<br>
+<center>
+<% for (let course of courses) { %>
+
+
+  
+  <div  class="w3-card-2 w3-margin" style="width:25%;float:left;">
+    <div class="w3-display-container w3-text-white">
+      <img src="/public/images/boys.jpg" alt="Lights" style="width:100%">
+    
+    </div>
+    <br>
+    <!-- <a href="../QuizView/<%=(course.id)%>">quiz</a> -->
+    <div class="w3-row">
+      <div class="w3-third w4-center" style="text-transform: uppercase;align-content: center;">
+        <p><b>Course</b></p>
+        <h6 ><b><%= course.courseName%></b></h6>
+      </div>
+      <div class="w3-third w4-center" style="text-transform: uppercase;align-content: center;"> 
+        <form action="/course/ratecourse" method="POST" >
+     
+      <select name="rate" class="form-control mb-3" >
+               <option >very bad</option>
+               <option >bad</option>
+              <option  >acceptable</option>
+             <option >moderate</option>
+             <option >good</option>
+             <option >very good</option>
+         </select>
+      <input type="hidden" id="rateit" name="rateit" value="<%= course.id %>" >
+    </div>
+    <div class="w3-third w4-center" style="text-transform: uppercase;align-content: center;">
+        <button type="submit" class="btn btn-info" value="Submit">Submit</button> 
+    </form>
+    </div>
+    </div>
+  </div>
+</a>
+<% } %>
+
+</center>
+</div>
+</div>
+ <% } else { %>
+  <div style="color: #555;background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;margin-bottom: 25%;margin-left: 5%;margin-right: 5%;" >
+
+        <h3><i class="fa fa-star"></i><b> No more courses to rate!</b></h3>
+        <p>you might done rating all your courses.</p>
+  </div>
+        <% } %>
+<div class="push" style="margin-top:70%">
+
+  <% include ../viewcommn/footer.ejs%>
+</div>
+
+
+
+
+</body></html>

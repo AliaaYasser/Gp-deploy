@@ -1,0 +1,95 @@
+<% if(role == 'student') { %>
+    <% include ../viewcommn/studentnav.ejs%>
+    <% if (list.length > 0) { %>
+
+    <div style="width:90%;margin-left: 5%;">
+        <div style="text-transform: capitalize;">
+            <div >
+            <div style="color: #555;background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;margin-bottom: 2%;" >
+
+                <h3><b> <i class="fa fa-users"></i> &nbsp; Team Members List</b></h3>
+                <p>Team Leader: <%= list[0].teamleader %>.</p>
+            </div>
+            <h3>Note!</h3>
+            <p style="color: gery;">Pleasee, be carfull and make sure you want delete a member.Notice that it will decrease the number of overall team.</p>
+          <table class="table" style="text-align:left">
+                <!-- <thead class="thead-dark">
+                    <tr>
+                    <th >Member Name</th>
+                    <th >Remove</th>
+                      </tr>
+                </thead> -->
+                <tbody>
+        
+                    <% for(var i=0; i < list[0].number -1 ; i++ ) { %>
+                        <tr>
+                          <td><%= list[0].teammembers[i] %></td>
+                          <td><div class="btn-group" style="margin-left: 90%;">
+                            <a href="/gp/deletemembers/<%= list[0].id %>/<%= list[0].teammembers[i] %>/<%= list[0].number -1 %>/<%= list[0].teamleader %>" class=" btn btn-danger"><i class="fa fa-trash"></i></a>
+                            </div></td>
+                        </tr>
+                    <% } %>     
+                </tbody>
+            </table>
+            <a onclick="myFunction('myDIV')"><button type="submit" class="btn btn-info">Add new member</button></a>
+            <br>
+            <div id="myDIV" style="border: 3px solid rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;margin-bottom: 3%;display: none;margin-top: 3%;">
+                <form class="gp-form" action="/gp/newmember" method="POST">
+                    <div class="split right">
+                        <input hidden  name="teamleader" value="<%= list[0].teamleader %>">
+                        <div class="col-sm-10 my-1">
+                            <label>Member Name</label>
+                            <input class="form-control" name="newmember" placeholder="Member username"> 
+                        </div>
+                        <div class="col-auto my-1">
+                          <button type="submit" class="btn btn-info">Add member</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        </div>
+        <br><br><br><br><br><br>
+        </div>
+        <% } else {  %>
+            <div style="margin:5%;" >
+                <form class="gp-form" action="" method="POST" >
+                            
+                    <div>
+                        <h2><b>No Available Members!</b></h2>
+                        <p>Please, check if you add your members while sending the request</p>
+                    </div>
+                    </div>
+                </form>
+            </div>
+            <% } %>
+
+    <% } else { %> 
+        <div style="margin:5%;" >
+            <form class="gp-form" action="" method="POST" >
+                <div>
+                    <h1>You don't have permission</h1>
+                </div>
+                </div>
+            </form>
+        </div>
+        <% }%>
+        <div >
+            <% include ../viewcommn/footer.ejs%>
+          </div>    
+
+          <script>
+            function myFunction(name) {
+              var x = document.getElementById(name);    
+              if (x.style.display === "none") {
+                x.style.display = "block";
+              } else {
+                x.style.display = "none";
+              }
+            }
+            </script> 
+</body>
+
+
+</html>
+

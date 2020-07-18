@@ -1,0 +1,120 @@
+<section class="lists-container" style="margin-left: 2%;">
+
+
+
+	<div class="list">
+        <h3 class="list-title">Tasks to Do</h3>
+		<ul class="list-items">
+    <%for (let storyboard of storyboards){%>
+       <% if(storyboard.Courseid==courses.id){ %>	
+		<% if (storyboard.status=='To Do'){%>
+            <li><%= storyboard.CardContent%> 
+            <% if(user.userRole == 'instructor') {%>
+            <br><br>
+            <a href="/course/done/<%=storyboard.id %>" class="btn btn-success" id="Donebtn">Done 
+                  <!-- <input type="hidden" value="<%= user._id%>" id="userid" name="userid"> 
+                  <input type="hidden" value="instructor make changes on stroyboardododod" id="notfiContant">
+            <%for(let userr of userrs){%>
+                        <input type="hidden" value="<%=userr.id%>" id="tostudent">
+                  <%}%>
+                  <input type="hidden" value="<%=user.userName%>" id="userName"> -->
+            </a>
+            <a href="/course/onprogress/<%=storyboard.id %>" class="btn btn-warning">On Progress</a>
+            <a style="float: right;" href="/course/deletecard/<%=storyboard.id %>" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> </a>
+            <!-- <% if (HasProject){%>
+            <a href="/course/ProjectInfo/<%=storyboard.id %>" class="btn btn-danger">Project Info</a>
+            <% } %> -->
+            <%}%>
+            </li><%}%><%}%>
+            <%}%>
+
+		</ul>
+
+        
+      </div>
+      
+
+	<div class="list">
+
+		<h3 class="list-title">On Progress Tasks</h3>
+		
+
+            <ul class="list-items">
+                  <%for (let storyboard of storyboards){%>
+                        <% if(storyboard.Courseid==courses.id){ %>
+                <% if (storyboard.status=='On Progress'){%>
+                <li><%= storyboard.CardContent%>
+		      <% if(user.userRole == 'instructor') {%> <br><br>
+                <a href="/course/done/<%=storyboard.id %>" class="btn btn-success">Done</a>
+              
+                <a href="/course/todo/<%=storyboard.id %>" class="btn btn-warning">To Do</a>
+                <!-- <% if (HasProject){%>
+                  <a href="/course/ProjectInfo/<%=storyboard.id %>" class="btn btn-danger">Project Info</a>
+                  <% } %> -->
+                <%}%>
+                </li><%}%><%}%>
+                <%}%>
+
+		</ul>
+
+
+	</div>
+
+
+
+	<div class="list">
+
+		<h3 class="list-title">Completed Tasks</h3>
+
+        
+            <ul class="list-items">
+                  <%for (let storyboard of storyboards){%>
+                        <% if(storyboard.Courseid==courses.id){ %>
+                <% if (storyboard.status=='Done'){%>
+                <li><%= storyboard.CardContent%>
+                  <% if(user.userRole == 'instructor') {%> <br><br>
+                <a href="/course/todo/<%=storyboard.id %>" class="btn btn-info">To Do</a>
+                <a href="/course/onprogress/<%=storyboard.id %>" class="btn btn-warning">On Progress</a>
+    
+                <!-- <% if (HasProject){%>
+                  <a href="/course/ProjectInfo/<%=storyboard.id %>" class="btn btn-danger">Project Info</a>
+                  <% } %>  </li>   -->
+                <%}%>
+    <%}%>
+            <%}}%> 
+
+
+      </div>
+      
+      <div class="list">
+
+            <center><h3 class="list-title"> <i class="fa fa-laptop" aria-hidden="true"></i> Project Details</h3></center>
+      <% if(HasProject) {%>
+            <ul class="list-items">
+                
+                  <%for (let pro of Project){%>
+                        <% if(pro.CourseName==courses.courseName){ %>
+                <li>
+                      <label><b>Project Title:</b></label>
+                      <p><%= pro.projectName%></p>
+                      <label><b>Project Description:</b></label>
+                      <p><%= pro.projectDescription%></p>
+                      <label><b>Project Members:</b></label>
+                      <p><%= pro.NumberOfStudent%></p>
+                  </li>
+       
+                <%}%>
+                  <%}%>
+            </ul>
+            <%}else{%>
+            <ul class="list-items">
+                  <center><li>No Projecs Added.</li></center>
+            </ul>
+            <% } %>
+            <% if(user.userRole == 'instructor') {%>
+            <ul class="list-items">
+		<a style="color: #333;" href="../Listprojectform/<%= courses.id%>" style="text-decoration: none;"> <button class="private-btn btn"style="color: #333;"> <h5> <i class="fa fa-users" aria-hidden="true"></i> Students registered in Projects</h5></button></a>
+            </ul>
+            <%}%> 
+      </div>
+      

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%;">
+
+<head>
+          <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+    .wrapper{
+            min-height: 100%;
+            margin-bottom: -50px;
+        }
+        .footer,.push{
+            height: 50px;
+        }
+        .checked {
+  color: orange;
+}
+    </style>
+
+</head>
+
+<body style="height: 100%;" >
+    <% include ../viewcommn/instructornav.ejs%>
+<% if(courses.length >0){ %>
+    <% if(status == 'Opened'){ %>
+        <div style="height: 100%;width:90%; margin-left:5%;margin-right: 5%;">
+            <div style="text-transform: capitalize;">
+                <div >
+                    <div style="background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;">
+                        <h3><i class="fa fa-book"></i>&nbsp;<b> Available Courses</b></h3>
+                        <p>Here is a list of your available courses that you can be assigne to.</p>
+                    </div>
+              <table class="table" style="text-align:center">
+                <thead >
+                <tr>
+                  
+                  <th>Name</th>
+                  <th>Hourse</th>
+                  <th>Students</th>
+                  <th>department</th>
+                  <th >rate</th>
+                  <th>Request Course</th>
+                  </tr>
+            </thead>
+            <tbody>
+                <% for (let course of courses) { %>
+                <tr>
+                 
+                  <td><%= course.courseName%></td>
+                  <td><%= course.hourse%></td>
+                  <td><%= course.numOfStudent%></td>
+                  <td><%= course.department%></td>
+    
+                  <td><span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span></td>
+                    <td><a id="modalBtn" class="btn btn-info" style="color: white;"  href="/course/registercourse/<%=course.courseName%>" >  <i class="fa fa-file-pdf-o" style="color: white;"></i> Send Request </a>
+                </tr>
+    
+                <% } %>
+            </tbody>
+        </table>
+          </div>
+            </div>
+    </div>
+    <% } else { %> 
+
+        <div style="color: #555;background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;margin-bottom: 25%;margin-left: 5%;margin-right: 5%;" >
+            <form class="gp-form" action="" method="POST" >
+                        
+                <div>
+                    <h3><i class="fa fa-book"></i>&nbsp;<b>Request to courses not oppened yet!</b></h3>
+                    <p>Courses will be available on time.</p>
+                </div>
+                </div>
+            </form>
+        </div>
+        <% }%>
+    <% } else { %> 
+        <div style="color: #555;background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;margin-bottom: 25%;margin-left: 5%;margin-right: 5%;" >
+            <form class="gp-form" action="" method="POST" >
+                        
+                <div>
+                    <h1><i class="fa fa-book"></i>&nbsp;<b>No Avialable courses</b></h1>
+                    <p>All courses must be assigned.</p>
+                </div>
+                </div>
+            </form>
+        </div>
+        <% }%>
+        <div class="push" style="margin-top:20%">
+
+            <% include ../viewcommn/footer.ejs%>
+          </div>
+
+</body>
+
+
+</html>

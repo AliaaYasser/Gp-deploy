@@ -1,0 +1,83 @@
+
+<% include viewcommn/adminComman.ejs%>
+<div style="background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;margin-left: 5%;margin-right: 5%;">
+  <h3><i class="fa fa-sitemap"></i>&nbsp;<b>Departments Page</b>
+  
+    <a onclick="myFunction('adddept')" style="float: right;"><button type="submit" class="btn btn-info" id="addBtn" style="margin-right: 0%;"><i class="fa fa-sitemap" style="color:white;"></i> 
+      Add Department
+    </button></a>
+  </h3>
+  <p>Here you can manage anything realted to the departments.</p>    
+</div>
+
+<div style="border: 3px solid rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;margin-left: 5%;margin-right: 5%;display: none;margin-top: 3%;margin-bottom: 3%;" id="adddept">
+  <h4><i class="fa fa-sitemap"></i><b> Departments Form</b></h4>
+  <p>Please,Enter The Department name.</p>
+  <form method="POST" action="addDepartment">
+    <div class="split right">
+        <div class="col-sm-3 my-1">
+            <div class="form-group">
+              <input id="course-name" type="text" name="name" required data-msg="course-name" class="input-material">
+
+            </div>
+          </div>
+        <div class="col-auto my-1">
+          <button type="submit" class="btn btn-info">Add</button>
+        </div><br>
+
+    </div>
+</form>
+</div>
+
+<% if(departments) { %>
+<div style="width: 90%;margin-left: 5%;margin-right: 5%;" >
+<table class="table" style="text-align:left">
+<thead>
+  <tr>
+
+    <th>Name</th>
+    <th style="width: 10%;">update</th>
+    <th style="width: 10%;">delete</th>
+    </tr>
+</thead>
+<tbody>
+<% for(let department of departments) { %>
+  <tr>
+
+    <td><%= (department.deptName) %> </td>
+
+    <td><a href="/course/editdepartment/<%= department._id%>?edit=true"  class=" btn btn-info"><i class="fa fa-edit"></i> edit</a></td>
+       <td><!--<a onclick="Delete()" class="btn btn-danger" style="color: white;"><i class="fas fa-times"></i> delete</a> -->
+        <a href="/course/deletedepartment/<%= department._id%>"  class=" btn btn-danger"><i class="fa fa-trash"></i> delete</a>
+      
+      </td>
+     
+  </tr>
+
+  <% } %>
+
+  
+</tbody>
+</table>
+
+</div>
+<div style="margin-top: 20%;">
+
+<% include viewcommn/footer.ejs%>
+</div>
+<% }else{ %>
+<div style="margin-top: 25%;">
+  <% include viewcommn/footer.ejs%>
+</div>
+<% } %>
+
+<script>
+  function myFunction(name) {
+    var x = document.getElementById(name);    
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
+  }
+  </script> 

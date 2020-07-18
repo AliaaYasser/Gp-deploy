@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+          <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+    .wrapper{
+            min-height: 100%;
+            margin-bottom: -50px;
+        }
+        .footer,.push{
+            height: 50px;
+        }
+        .checked {
+  color: orange;
+}
+    </style>
+
+</head>
+
+<body style="height: 100%;" >
+    <% include ../viewcommn/studentnav.ejs%>
+<% if(courses.length >0){ %>
+    <% if(status == 'Opened'){ %>
+        <div style="background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;margin-left: 5%;margin-right: 5%;">
+            <h3><i class="fa fa-book"></i>&nbsp;<b>Courses List</b></h3>
+            <p>Here is a list of your available courses.</p> 
+        </div>
+        <div style="height: 100%;width:90%; margin-left: 5%;margin-right: 5%;">
+            <div style="text-transform: capitalize;">
+                <div >
+      <form action="/course/registermany" method="post" >              
+              <table class="table" style="text-align:center">
+                <thead>
+                <tr>
+                  <th>select</th>
+                  <th>Name</th>
+                  <th>Hourse</th>
+                  <th>Students</th>
+                  <th>department</th>
+                  <th >rate</th>
+                  <th>Request Course</th>
+                  </tr>
+            </thead>
+            <tbody>
+                <% for (let course of courses) { %>
+                <tr>
+                <td>  
+                    <div class="checkbox">
+                            <label><input name="selected" type="checkbox" value="<%= (course.id) %>"> </label>
+                    </div> 
+                  </td>
+                  <td><%= course.courseName%></td>
+                  <td><%= course.hourse%></td>
+                  <td><%= course.numOfStudent%></td>
+                  <td><%= course.department%></td>
+    
+                  <td>
+                    <progress value="<%= (course.courseRate) %>" max="100"></progress> <%= (course.courseRate) %> %
+                  </td>
+                    <td><a id="modalBtn" class="btn btn-info" style="color: white;"  href="/course/reg/<%=course.id%>/<%= course.courseName%>" >  <i class="fa fa-file-pdf-o" style="color: white;"></i> Send Request </a>
+                </tr>
+    
+                <% } %>
+            </tbody>
+        </table>
+        <div class="text-center"><button type="submit" class=" btn btn-info" style="color: white;float: left;">Send request</button></div><br>
+               
+    </form> 
+          </div>
+            </div>
+    </div>
+        <% } else {  %>
+            <div>
+                <div style="color: #555;background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;margin-bottom: 25%;margin-left:5%;margin-right:5%" >
+                    <form class="gp-form" action="" method="POST" >                    <div>
+                        <h2><b>Registration is not available now!</b></h2>
+                        <p>It's not the time to register courses.</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+            <% } %>
+
+    <% } else { %> 
+        <div >
+            <div style="color: #555;background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;margin-bottom: 25%;margin-left:5%;margin-right:5%" >
+                <form class="gp-form" action="" method="POST" >
+                            
+                    <div>
+                        <h3><i class="fa fa-book"></i> &nbsp; <b>No available courses to show!</b></h3>
+                        <p>you might be finished all the courses that is opened now.</p>
+                    </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <% }%>
+        <div style="margin-top: 20%;">
+<% include ../viewcommn/footer.ejs%>
+</di>
+</body>
+
+
+</html>
+

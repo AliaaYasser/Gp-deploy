@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+          <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+    .wrapper{
+            min-height: 100%;
+            margin-bottom: -50px;
+        }
+        .footer,.push{
+            height: 50px;
+        }
+        .checked {
+  color: orange;
+}
+    </style>
+
+</head>
+
+<body style="height: 100%;" >
+  <% include ../viewcommn/adminComman.ejs%>
+  <div style="background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;margin-left: 5%;margin-right: 5%;">
+    <h3><i class="fa fa-inbox"></i>&nbsp;<b> Insrtuctors course requst list</b>
+    </h3>
+    <p>Here is a list of all requests sent to join a courses.</p>    
+</div>
+  <% if(courses.length >0){ %>
+        <div style="height: 100%;width:90%; margin-left:5%;margin-right: 5%;">
+            <div style="text-transform: capitalize;">
+                <div >
+              <table class="table" style="text-align:left">
+                <thead >
+                <tr>
+                    <th>Course</th>
+                    <th>Doctor</th>
+                    <th style="width: 2%;">Accept</th>
+                    <th style="width: 2%;">Reject</th>
+                  </tr>
+            </thead>
+            <tbody>
+                <% for (let course of courses) { %>
+                <tr>
+                 
+                  <td><%= course.courseName%></td>
+                  <td><%= course.toUser%></td>
+    
+                 <td style="margin-left: 100%;"> <a href="../course/Accept/<%=(course.courseName)%>"  class=" btn btn-info"><i class="fa fa-check"></i> </a></td>
+                 <td style="margin-left: 100%;"></tdstyle> <a href="../course/reject/<%=(course.courseName)%>" class="btn btn-danger"><i class="fas fa-times"></i></a></td>
+                <% } %>
+            </tbody>
+        </table><br>            
+          </div>
+            </div>
+    </div>
+    <% } else { %> 
+        <div style="margin:5%;" >
+            <form class="gp-form" action="" method="POST" >
+                <div>
+                    <!-- <h2>No Requests Found!</h2> -->
+                    <p style="color: gray;margin-left: 30%;">No Instructor sent a request to be assigned to a a course.</p>
+                </div>
+                </div>
+            </form>
+        </div>
+        <% }%>
+        <div style="margin-top: 15%;">
+            <% include ../viewcommn/footer.ejs%>
+          </div>
+
+</body>
+
+</html>

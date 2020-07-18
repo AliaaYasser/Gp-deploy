@@ -1,0 +1,9 @@
+userName,password,email,userRole,department,level
+student11,student11,student11@gmail.com,student,CS,1
+student12,student12,student12@gmail.com,student,CS,2
+student13,student13,student13@gmail.com,student,CS,3
+student14,student14,student14@gmail.com,student,CS,4
+student15,student15,student15@gmail.com,student,CS,1
+student16,student16,student16@gmail.com,student,CS,2
+student17,student17,student17@gmail.com,student,CS,3
+mobile,mobile,mobil@gmail.com,instructor,CS,

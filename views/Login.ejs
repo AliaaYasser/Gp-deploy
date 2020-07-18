@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../public/stylesheets/viewstyle.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../public/stylesheets/popup.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+        integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
+        integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../public/stylesheets/body.css">
+    <link rel="stylesheet" href="../public/stylesheets/navigation.css">
+    <link rel="stylesheet" href="../public/stylesheets/home.css">
+    <title>I Learn</title>
+    <link rel="shortcut icon" href="/public/images/i learn.png" type="image/png" />
+    <style>
+        .field-icon {
+            float: right;
+            color:rgb(27, 151, 170);
+            margin-top: .90%;
+            
+            position: relative;
+            
+         
+            
+        }
+        </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+            aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
+            </ul>
+            <div>
+                <% if( !user) { %>
+                <a style="text-decoration: none;" onclick="openForm()"><button type="button"
+                        class="btn btn-info">LOGIN</button></a>
+                <% } else { %>
+                    <% if( user.userRole=='student') { %>
+                        <a href="/student"><button type="button" class="btn btn-info" >my Profile</button></a>
+                        <% } %>
+                        <% if( user.userRole=='admin') { %>
+                           <a href="/admin"><button type="button" class="btn btn-info" >my Profile</button></a>
+                           <% } %>
+                           <% if( user.userRole=='instructor') { %>
+                               <a href="/instructor"><button type="button" class="btn btn-info" >my Profile</button></a>
+                               <% } %>
+                               <% if( user.userRole=='super admin') { %>
+                                   <a href="/admin"><button type="button" class="btn btn-info" >my Profile</button></a>
+                                   <% } %>
+                 <a href="../logout"><button type="button" class="btn btn-danger" >LogOut!</button></a>
+                
+                 <% } %>
+            </div>
+        </div>
+    </nav>
+    <div class="navbar navbar-expand-lg navbar-light bg-light">
+        <img src="/public/images/i learnn.png" alt="Nature" class="responsive" width="500" height="200" style="margin-left: 30%;margin-bottom: 10%;margin-top: 3%;"> 
+    
+    </div>
+    
+    <!-- First Container -->
+    <div class="container-fluid bg-1 text-center">
+        <h3 class="margin">Why Choose Us?</h3>
+        <img src="/public/images/ques.png" class="img-responsive img-circle margin" style="display:inline" alt="Bird"
+            width="350" height="200">
+        <p>
+            E-learning is learning where the internet and the web play an important role. the term is also employed in a
+            broader sense, namely as learning where any electronic technology is used,but itexsludes aspects that might
+            fit under "distance learning", but are not electronic such as books.
+        </p>
+    </div>
+
+    <!-- Second Container -->
+    <div class="container-fluid bg-2 text-center">
+        <h3 class="margin">About Our Team</h3>
+        <p>This is a E-learning website makes your learning more easy and comfortable. You can learn what ever you want
+            in any time.</p>
+        <p>It's our Graduation project for 2019/2020 year, Under the Supervision of <b>Dr. Laila Abdel-Hamid</b></p>
+    </div>
+
+    <!-- Third Container (Grid) -->
+    <div class="container-fluid bg-3 text-center">
+        <h3 class="margin">Where To Find Us?</h3><br>
+        <div class="row">
+            <div class="col-sm-4">
+                <p>You Can meet Us at our college <b>Faculty of Computers and Artificial Intelligence</b>.</p>
+                <img src="/public/images/col.png" class="img-responsive margin" style="width:50%" alt="Image">
+            </div>
+            <div class="col-sm-4">
+                <p>You Can send us an email on <b>I-Learn@FCIH.com</b>.</p><br>
+                <img src="/public/images/mail.png" class="img-responsive margin" style="width:50%" alt="Image">
+            </div>
+            <div class="col-sm-4">
+                <p>You Can meet us online on skype with Username<b>ILearnTeam</b>.</p>
+                <img src="/public/images/vid.png" class="img-responsive margin" style="width:50%" alt="Image">
+            </div>
+        </div>
+    </div>
+    <footer class="container-fluid bg-4 text-center" style="background-color: silver;">
+        <p>Powered By <b>I-Learn</b> Team</p> 
+      </footer>
+
+
+    <!-- Login Container -->
+
+      <div class="form-popup" id="myForm">
+        <form action="myProfile" class="form-container" method="POST">
+          <h2>Login</h2>
+          <p style="font-family: Playfair Display;color: darkgray;">Please, Use Your <b>VALID</b> Username and Passowrd!</p>    
+
+          <label ><b>Username</b></label>
+          <input type="text" placeholder="Username" name="Username" required>
+      
+          <label ><b>Password</b></label>
+          <input type="password" placeholder="Enter Password" name="Password"  id ="password-field" required>
+        
+         <sup style=" margin-left: 70%;  color:rgb(27, 151, 170);"> Show Password </sup> 
+         <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+        
+        <button type="submit" class="btn">Login</button>
+          <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+        </form>
+      </div>
+      
+      <script>
+      function openForm() {
+        document.getElementById("myForm").style.display = "block";
+      }
+      
+      function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+      }
+      </script>
+          <script>
+            $(".toggle-password").click(function () {
+    
+                $(this).toggleClass("fa-eye fa-eye-slash");
+                var input = $($(this).attr("toggle"));
+                if (input.attr("type") == "password") {
+                    input.attr("type", "text");
+                } else {
+                    input.attr("type", "password");
+                }
+            });
+        </script>
+</body>
+
+</html>

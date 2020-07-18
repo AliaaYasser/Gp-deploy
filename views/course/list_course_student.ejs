@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../../public/stylesheets/popup.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+
+    <style>
+        .wrapper {
+            min-height: 100%;
+            margin-bottom: -50px;
+        }
+
+        .footer,
+        .push {
+            height: 50px;
+        }
+
+        .checked {
+            color: orange;
+        }
+    </style>
+
+</head>
+
+<body style="height: 100%;">
+    <% include ../viewcommn/instructornavpost.ejs%>
+    <div style="margin-right: 5%;margin-left: 5%;background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;">
+        <h3><i class="fa fa-laptop"></i>&nbsp;<b><%= Course.courseName %> registered students</b>
+            <a href="../../course/storyboard/<%=(Course.id)%>"><button type="submit" class="btn btn-info" id="addBtn" style="margin-right: 2%;float: right;"><i class="fa fa-map" style="color:white;"></i> 
+                Board
+              </button></a>
+        </h3>
+        <p>Here is a list of all people registered in course.</p>  
+    </div>
+    <div style="height: 100%; margin-left:5%;margin-right: 5%;">
+        <div style="text-transform: capitalize;">
+            <!-- <div class="col-md-9 "> -->
+
+
+            <% if(Enroll.length >0){ %>
+
+            <div>
+
+                <table class="table" style="text-align:center;text-transform: capitalize;text-align: left;">
+                    <thead >
+                        <tr>
+
+                            <th>Username</th>
+                            <th style="width: 30%;">E-mail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (let enroll of Enroll) { %>
+                        <%if(enroll.courseid==Course.id){ %>
+                        <% for (let user of User) { %>
+                        <%if(enroll.studentid==user.id){ %>
+                        <tr>
+                            <td><%= user.userName%></td>
+
+                            <td>
+                            <a onclick="myFunction('myDIV')" class=" btn btn-info"><i class="fa fa-inbox" style="color: white;"></i></a>
+                        
+                              <div id="myDIV" style="border: 3px solid rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;margin-bottom: 3%;display: none;margin-top: 3%;">
+                                <form action="/course/sendmail" method="POST">	
+                                    <label><b>E-mail Content</b></label><br>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control"name="messageContent">
+                                    </div>
+                                        <div>
+                                            <input type="hidden" value="<%=user.userName%>" id="userName" name="userName">
+                                            <input  type="hidden" value="<%=user.email%>" id="useremail" name="useremail" width="2px">
+                                            <button type="submit" class="btn btn-info" id="sendBtn">
+                                                Send
+                                            </button>
+                                        </div>
+                                </form>
+                                </div>
+                            </td>
+
+                            <% } %>
+                            <%}%>
+                            <%}%>
+                            <%}%>
+       </tbody>
+    </table>
+   
+      </div> <% } else { %>
+                            <h1>Not Students Found!</h1>
+                            <% } %>
+        </div>
+    </div>
+
+                            <div class="push">
+                                <% include ../viewcommn/footer.ejs%>
+
+                            </div>
+                            <script src="../../public/javascripts/popup.js">
+                            </script>
+ <script>
+    function myFunction(name) {
+      var x = document.getElementById(name);    
+      if (x.style.display === "none") {
+        x.style.display = "block";
+      } else {
+        x.style.display = "none";
+      }
+    }
+    </script>
+</body>
+
+
+</html>

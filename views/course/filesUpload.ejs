@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    
+    div[id*=hidden-details] ,div[id*=material-body],div[id*=practical-body]{
+      display: none;
+    }
+    .collapsible{ 
+      cursor: pointer;
+      /* background-color:#1ea0b4; */
+      background-color:rgb(249,249,249);
+      border-radius: 20px;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;}
+    .collapsible:after {
+  content: '\02795'; /* Unicode character for "plus" sign (+) */
+  font-size: 13px;
+  
+  color: white;
+  float: right;
+  margin-left: 5px;
+  border: none;
+}
+
+.activ:after {
+  border: none;
+  content: "\2796"; /* Unicode character for "minus" sign (-) */
+}
+.dropbtn {
+  background-color: #333;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 8%;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+  </style>
+  <script>
+    // $("#head").click(function(){
+    //   $("#hidden-details").slideToggle("fast");
+
+    // });
+  </script>
+</head>
+
+<body style="height: 100%;">
+  <% if (user.userRole== 'instructor' ) { %>
+    <% include ../viewcommn/instructornav.ejs%>
+  <% } else { %>
+    <% include ../viewcommn/studentnav.ejs %>
+  <% } %>
+  
+    <div class="row">
+      <div style="width: 90%;margin-left:5%;">
+      <div style="background-color: rgba(27, 151, 170,0.08);margin-right: 2%;padding-bottom: 2%;border-radius: 1%;">
+       <table  style="text-align:left;border-top: none;border-bottom: none;margin-left: 2%;">
+     
+          <tbody>
+              <tr>
+                <td style="width: 5%;">
+                  <img src="/public/images/open.png" width="100%">
+                </td>
+                <td style="width: 80%;">
+                  <b><h6 class="text-center display-4 my-4" style="float: left;font-size: xx-large;text-transform: uppercase;">
+                    <%= CourseName %> Materials 
+                  </h6></b>
+                </td>
+               <td style="width: 5%;">
+                <!-- <% if(user.userRole == 'instructor') {%>
+                <div class="dropdown" style="float:right;">
+                  <button class="dropbtn">Options</button>
+                  <div class="dropdown-content">
+                    <a onclick="myFunction()" style="color:#1ea0b4;cursor: pointer;"> <i class="material-icons">tab</i> Add week</a>  
+                  </div>
+                </div>
+                <% } %>  -->
+              </td>
+              <td style="width: 10%;">
+                <a href="../course/storyboard/<%=(cid)%>"><button type="submit" class="btn btn-info" id="addBtn" style="margin-right: 2%;"><i class="fa fa-map" style="color:white;"></i> 
+                  Board
+                </button></a>
+              </td>
+              </tr>  
+              <tr>
+                <td></td>
+                <td>
+                <p>Here is all the materials of your course. Quizes, assignments and also presenations.</p>
+                </td>
+              </tr>
+          </tbody>
+      </table>
+    </div>
+      <br>
+        <% if (user.userRole== 'instructor' ) { %>  
+      <div>   
+      <form action ="/course/addWeek" method="POST">
+        <label>week number :</label>
+        <input style="border-radius: 20px ;" type="number" name="weekNum"  required>
+        <input type="hidden" value="<%= cid %>" name="cid">
+        <button  class="btn btn-dark" type="submit"> add week</button>
+      </form>
+      </div>
+      <% } else{%>
+      <!-- <a href="../QuizView/<%=(cid)%>"  class=" btn btn-success" style="padding-left: 2;padding-top: 2;margin-left: 60%;"> Practicals  </a> -->
+      <% }%>
+      <hr>
+      <% if(weeks){ %>
+        <% var n=0; %>
+        <% weeks.forEach(function(week) { %>
+          <div>
+          <button  class="collapsible" id="head<%= (n) %>" onclick="detiels('head<%= (n) %>','hidden-details<%= (n) %>')" style="background-color: rgba(27, 151, 170,0.08);"><b><i class="fa fa-calendar"></i> &nbsp; Week <%= week.weekNum %></b></button>
+
+  
+<br>
+        
+<div id="hidden-details<%= (n) %>" >
+  
+<div > 
+  <br>
+   <button  style="background-color: rgba(51, 51, 51);margin-left: 2%;width: 98%;color: white;" class="collapsible" id="material-head<%= (n) %>" onclick="detiels('material-head<%= (n) %>','material-body<%= (n) %>')"><b> <i class="fa fa-folder" style="color: white;"></i> &nbsp; Materials</b></button>
+   <div id="material-body<%= (n) %>">
+  <br>
+  <% if (user.userRole== 'instructor' ) { %>
+          
+    <form action="/upload/<%= cid %>/<%= CourseName %>/<%= week.weekNum %>" id="myForm" method="POST" enctype="multipart/form-data" style="float: right;">
+      <input type="file" name="file" id="file" class="btn btn-info" required>
+      <input type="hidden" value="<%=user.userName%>" id="userName" name="userName">
+			<input type="hidden" value="<%= CourseName %>" id="courseName" name="courseName">
+			<input type="hidden" value="Your instructor add new matrial to '<%= CourseName %>' on week <%=week.weekNum %> please check it" id="notfiContant"name="notfiContant">
+			<%for(let userr of userrs){%>
+				 
+				<input class="hh" type="hidden" value="<%=userr.id%>" id="tostudent" name="tostudent">
+				
+		  <%}%>
+			<input type="hidden" value="<%=user._id%>" id="userid" name="userid">
+      <button class="btn btn-light" type="submit" id="addBtn"><i class="fa fa-upload" style="color: #333;"></i> Upload</button>
+  </form>
+  <br>
+  </br>
+  <% } %>
+<% if(files){ %>
+  
+    
+    
+      <div  style="width: 98%;margin-left: 2%;">
+               <% files.forEach(function(file) { %>
+                <% for (let reso of resourse ) { %>
+                  <% if (file._id==reso.materialsId && reso.weekId== week.weekNum) { %>
+                  <table class="table" style="text-align:left;border: 2px solid rgba(56, 54, 54, 0.2);background-color: white;border-radius: 50%;">
+                      <!-- <thead>
+                        <th style="width: 90%;">Materials</th>
+                        <th style="width: 5%;">Download</th>
+                        <% if (user.userRole==='instructor') { %>
+                        <th style="width: 5%;">Delete</th>
+                        <% } %>
+                      </thead> -->
+                  <tbody >
+                  <tr >
+                   <td style="width: 90%;"> <% if(file.isImage) { %>
+                    <a onclick="myFunction('<%= file._id %>')" style="color:#333;cursor: pointer;"> <i class="fa fa-image"></i> <%= file.filename %></a>  
+                    <div id="<%= file._id %>" style="display: none;">   
+                      <img src="/image/<%= file.filename %>" alt="" style="padding-bottom: 0%;float: left; width:20%">
+                    </div>
+                    <% } else if(file.contentType == 'video/mp4') { %>
+                      <a onclick="myFunction('<%= file._id %>')" style="color:#333;cursor: pointer;"> <i class="fa fa-film"></i><%= file.filename %></a>  
+                    <div id="<%= file._id %>" style="display: none;">   
+                      <video width="50%" controls style="padding-bottom: 0%;">
+                        <source src="/image/<%= file.filename %>" type="<%= file.contentType %>" >
+                      </video>                  
+                      </div>
+                      <% } else if(file.contentType === 'audio/mp3' || file.contentType === 'audio/mpeg') { %>
+                      <a onclick="myFunction('<%= file._id %>')" style="color:#333;cursor: pointer;"> <i class="fa fa-volume-up"></i> &nbsp; <%= file.filename %></a>  
+                    <div id="<%= file._id %>" style="display: none;">   
+                      <audio  controls  style="padding-bottom: 0%;width: 50%;" >
+                        <source src="/image/<%= file.filename %>" type="<%= file.contentType %>">
+                      </audio>                 
+                      </div>                      
+                      <% } else { %>
+                        <h5><i class="fa fa-file"></i> &nbsp; <%= file.filename %></h5>
+                          <% } %></td>
+                    <td style="width: 5%;">
+                      <a href="/Download/<%= file.filename %>"><button class="btn" type="submit"><i class="fa fa-download" style="color: #333;size: 100%;"></i> </button></a>
+                    </td>
+                    <% if (user.userRole==='instructor') { %>
+                    <td style="width: 5%;">
+                        <a  ><form method="POST" action="/filess/<%= file._id %>">
+                           <a><button class="btn" type="submit" style="color: white;"><i class="fa fa-trash" style="color: rgb(202, 48, 48);"></i> </button></a>
+                        </form></a>
+                    </td>
+                    <% } %>
+                  </tr>
+                </tbody>
+              </table> <br>
+                  <% } %>
+                  <% } %>
+                  <% }) %>
+</div>                 
+        
+   
+    
+      <% } else { %>
+        <p>No files to show</p>
+        <% } %>
+</div></div>
+<br>
+<div>
+
+  <button  class="collapsible" style="background-color: rgba(51,51,51);margin-left: 2%;width: 98%;color: white;" id="practical-head<%= (n) %>" onclick="detiels('practical-head<%= (n) %>','practical-body<%= (n) %>')"><b><i class="fa fa-edit" style="color: white;"></i> &nbsp; Tutorials</b></button>
+  <div id="practical-body<%= (n) %>">
+ 
+  <br>
+  <% if (user.userRole== 'instructor' ) { %>
+  <form action="/uploadQuiz/<%= cid %>/<%= CourseName %>/<%= week.weekNum %>"  method="POST" enctype="multipart/form-data" style="margin-left:2%;">
+    <input type="file" name="file" id="file" class="btn btn-info" required><br> <br>
+    <label>Deadline</label>
+    <input  name="time" id ="time" type="datetime-local" style="width: 45%;" ></input>
+    <button class="btn btn-light" type="submit"><i class="fa fa-upload" style="color: #333;"></i> Upload</button>
+</form> <br>
+
+<% } %>
+
+
+<% if(Quizfiles){ %>
+  <% var x=0; %>
+    
+      <div >
+            <% Quizfiles.forEach(function(file) { %>
+    
+              <% for (let reso of quizzies ) { %>
+          
+              <% if (file._id==reso.materialsId && reso.weekId== week.weekNum) { %>  
+                <table class="table" style="text-align:left;border: 2px solid rgba(56, 54, 54, 0.2);background-color: white;border-radius: 50%;width:98%;margin-left: 2%;">
+                  <!-- <thead>
+                    <th style="width: 50%;">Activity</th>
+                    <th style="width: 30%;">Time</th>
+                    <th style="width: 5%;">Download</th>
+                    <th style="width: 5%;">Answer</th>
+                    <% if( user.userRole==='instructor'  ){ %>
+                    <th style="width: 5%;">Delete</th>
+                    <% } %>
+                  </thead> -->
+                  <tbody>        
+              <tr style="background-color: white;margin-right: 2%;padding-bottom: 2%;border-radius: 3%;border: none;">
+                <td style="width: 59%;">
+                  <% if(file.isImage) { %>
+                    <a onclick="myFunction('<%= file._id %>')" style="color:#333;cursor: pointer;"> <i class="fa fa-image"></i> <%= file.filename %></a>  
+                    <div id="<%= file._id %>" style="display: none;">   
+                      <img src="/image/<%= file.filename %>" alt="" style="padding-bottom: 0%;float: left; width:20%">
+                    </div>
+                  <% } else if(file.contentType == 'video/mp4') { %>
+                    <a onclick="myFunction('<%= file._id %>')" style="color:#333;cursor: pointer;"> <i class="fa fa-film"></i> <%= file.filename %></a>  
+                    <div id="<%= file._id %>" style="display: none;">   
+                      <video width="50%" controls style="padding-bottom: 0%;">
+                        <source src="/image/<%= file.filename %>" type="<%= file.contentType %>" >
+                      </video>
+                    </div>
+                    <% } else if(file.contentType === 'audio/mp3' || file.contentType === 'audio/mpeg') { %>
+                      <a onclick="myFunction('<%= file._id %>')" style="color:#333;cursor: pointer;"> <i class="fa fa-volume-up"></i> <%= file.filename %></a>  
+                    <div id="<%= file._id %>" style="display: none;">   
+                      <audio  controls  style="padding-bottom: 0%;width: 50%;" >
+                        <source src="/image/<%= file.filename %>" type="<%= file.contentType %>">
+                      </audio>                   
+                     </div>
+                    <% } else { %>
+                      <h5><i class="fa fa-file"></i> &nbsp; <%= file.filename %></h5>
+                        <% } %>
+                </td>
+                <td style="width: 30%;">
+                  <div >
+                    <div id="countdown<%= (x) %>" onclick="settime('<%= (reso.dedline ) %>','countdown<%= (x) %>')"  >click here to see timer end time is   <%= (reso.dedline ) %></div>
+                    <%  x++; %>
+                </div>
+                </td>
+               <td style="width: 2%;">
+                   <a href="/Download/<%= file.filename %>"><button class="btn" type="submit"><i class="fa fa-download" style="color: #333;"></i> </button></a>
+               </td>
+               <td style="width: 2%;">
+                <% if(  Date.parse(reso.dedline) > Date.now() || !reso.dedline ){ %>
+                
+                  <a href="/viewanswers/<%= reso._id %>/<%= cid %>"><button class="btn" type="submit" style="color: #333;"><i class="fa fa-edit" style="color: rgb(55, 207 ,109);"></i></button> </a>
+                  
+                  <% } else {  %>
+                   <% if( user.userRole==='instructor'  ){ %>
+                   <a href="/viewanswers/<%= reso._id %>/<%= cid %>" ><button class="btn" type="submit" style="color: #333;"><i class="fa fa-edit" style="color: rgb(55, 207 ,109);"></i> </button> </a>
+                   <% } %>
+                  <% } %>
+              </td>
+             
+              <% if (user.userRole==='instructor') { %>
+              <td style="width: 2%;">
+                  <a ><form method="POST" action="/filess/<%= file._id %>">
+                     <a style="margin-left: 10%;"><button class="btn" type="submit" style="color: white;"><i class="fa fa-trash" style="color: rgb(202, 48, 48);"></i> </button></a>
+                  </form></a>
+              </td>
+              <% } %>
+              </tr>
+            </tbody>
+          </table>
+              <% } %>
+   
+              <% } %>
+                  
+              <% }) %>                
+</div>
+
+    <% n++ ; %>
+      <% } else { %>
+        <p>No files to show</p>
+        <% } %>
+</div>
+</div>
+
+
+
+</div>
+</div>
+<hr>
+
+        <% }) %>
+       
+        <% } else { %>
+          <p>No files to show</p>
+          <% } %>      
+      </div>
+    </div>
+ 
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+    <div style="margin-top: 25%;">
+      <% include ../viewcommn/footer.ejs%>
+    </div>
+    <script>
+      function detiels(divHeader,divBody){
+        var headid="#"+divHeader;
+        var bodyid='#'+divBody;
+        
+      $(bodyid).slideToggle("fast");
+      var element = document.getElementById(divHeader);
+   element.classList.toggle("activ");
+      };
+      
+      function settime(dedline,id){
+          CountDownTimer(Date.parse(dedline), id);
+      }
+      
+          function CountDownTimer(dt, id)
+          {
+            if(dt){
+      
+              var end = new Date(dt);
+              var _second = 1000;
+              var _minute = _second * 60;
+              var _hour = _minute * 60;
+              var _day = _hour * 24;
+              var timer;
+      
+              function showRemaining() {
+                  var now = new Date();
+                  var distance = end - now;
+                  if (distance < 0) {
+      
+                      clearInterval(timer);
+                      document.getElementById(id).innerHTML = 'EXPIRED!';
+      
+                      return;
+                  }
+                  var days = Math.floor(distance / _day);
+                  var hours = Math.floor((distance % _day) / _hour);
+                  var minutes = Math.floor((distance % _hour) / _minute);
+                  var seconds = Math.floor((distance % _minute) / _second);
+      
+                  document.getElementById(id).innerHTML = days + 'days ';
+                  document.getElementById(id).innerHTML += hours + 'hrs ';
+                  document.getElementById(id).innerHTML += minutes + 'mins ';
+                  document.getElementById(id).innerHTML += seconds + 'secs';
+              }
+      
+              timer = setInterval(showRemaining, 1000);
+            }
+            else{
+              document.getElementById(id).innerHTML = 'No Dedline';
+            }
+          }
+</script>     
+<script>
+  function myFunction(name) {
+    var x = document.getElementById(name);    
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
+  }
+  </script>
+   <script>
+    const addBtn=document.getElementById('addBtn')
+
+    
+    const notfiContant = document.getElementById('notfiContant').value
+    const userid = document.getElementById('userid').value
+    const courseName=document.getElementById('courseName').value
+    var list = document.getElementsByClassName("hh");
+  for (var i = 0; i < list.length; i++) {
+   list[i].setAttribute("id", "tostudent" + i);
+  }var tostudent=[]
+    for(var i=0;i<list.length;i++){
+      
+      
+      tostudent.push(document.getElementById('tostudent'+[i]).value)
+    console.log(tostudent)
+    }
+    console.log('too',tostudent)
+    
+    
+    const userName = document.getElementById('userName').value
+    addBtn.onclick=(e)=>{
+      
+      // e.preventDefault();
+      socket.emit('notfiaddcard',{
+        userName,notfiContant,userid,tostudent,courseName
+      })
+    }
+</script>
+  </body>
+  
+  </html>

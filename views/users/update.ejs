@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../../public/stylesheets/viewstyle.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../public/stylesheets/popup.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
+            integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
+            crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+            <link rel="shortcut icon" href="../images/i learn.png"  type="image/png" />
+
+    <script>
+        function assagin_instructor() {
+            alert("instructor x assind to course name y");
+        }
+    </script>
+    <style>
+        .checked {
+            color: orange;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td,th {
+            height: 50px;
+            text-align: center;
+
+        }
+
+         .wrapper{
+             min-height: 100%;
+             margin-bottom: -50px;
+         }
+        .footer,.push{
+            height: 50px;
+        }
+
+    </style>
+</head>
+
+
+    
+<body style="height: 100%;">
+    <% include ../viewcommn/adminComman.ejs%>
+     
+    <div >
+        <div  >
+            
+        <div>
+            <div style="background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;margin-right: 5%;margin-left: 5%;">
+                <h3><i class="fa fa-user"></i>&nbsp;<b>Update user form</b></h3>
+                <p>Here you can update the choosen user information.</p>    
+            </div>
+            <br>
+            <div style="background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;margin-right: 5%;margin-left: 5%;">
+            <h5><b>Update <%=users.userName%> Info</b></h5> <br>
+            <form method="POST" action="/users/edituser">
+              <input type="hidden" value="<%= users._id %>" name="id">
+              <div class="input-group mb-3">
+                <div class="input-group-text"><i class="material-icons">
+                    person
+                    </i></div>
+                <input type="text" class="form-control" name="username" value="<%=users.userName%>" required>
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-text"><i class="material-icons">
+                    lock
+                    </i></div>
+                <input type="password" class="form-control" name="password"  value="<%=users.password%>" required>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-text"><i class="material-icons">
+                    email
+                    </i></div>
+                <input type="email" class="form-control" name="email" value="<%=users.email%>" required>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 form-control-label">user type</label>
+                <div class="col-sm-9">
+                    <select name="userRole" class="form-control mb-3" id="userRole" required>
+                    <option display value="<%=users.userRole%>">is <%=users.userRole%></option>
+                    <%   if (role=='super admin'){ %>
+                        <option value="admin" >admin</option>
+                    <% }   %>
+                        <option value="instructor">instructor</option>
+                        <option value="student">student</option>
+                    </select>
+                </div>
+            <div class="form-group" id="admin" class="selectDBType" style="display:none;">
+
+                <div class="col-sm-9">
+                 <label class="col-sm-3 form-control-label">department</label>
+                    <select name="department" class="form-control mb-3">
+                        <option ><%=users.department%> </option>
+                        <% for(let department of departments) { %>
+                            <option ><%= (department.deptName) %> </option>
+                        <% } %>
+                    </select>
+                </div></div>
+                  <div class="col-sm-9"  id="student" class="selectDBType" style="display:none;">
+                  <label>level</label>
+                   <select name="level" class="form-control mb-3" >
+                    <option><%=users.level%></option>
+                         <option >level 1</option>
+                        <option  >level 2</option>
+                       <option >level 3</option>
+                       <option >level 4</option>
+                   </select>
+               </div>
+                </div>
+                <p style="color: lightslategray;size: 8;">if user Type "isStudent" OR "isinstructor" please select the same type from the dropdwon menu for detieals.</p>
+            <div class="modal-footer" style="float: left;">
+                <button type="submit" class="btn btn-info">
+                    save user
+                </button>
+            </div>
+
+            </form></div>
+        </div>
+    </div>
+            
+        </div>
+
+    
+    
+
+    <div class="push"></div>
+    <!-- FOOTER -->
+    <% include ../viewcommn/footer.ejs %>
+</body>
+
+</html>

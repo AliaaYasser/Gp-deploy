@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../public/stylesheets/viewstyle.css" />
+    <link rel="stylesheet" href="../../public/stylesheets/popup.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../public/stylesheets/viewstyle.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
+            integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="../public/stylesheets/viewstyle.css"/>
+    <link rel="stylesheet" href="../../public/stylesheets/navigation.css">
+    <title>I Learn</title>
+    <style>
+        .wrapper {
+            min-height: 100%;
+            margin-bottom: -50px;
+        }
+
+        .footer,
+        .push {
+            height: 50px;
+        }
+    </style>
+</head>
+
+
+<body style="height: 100%;" >
+  <% if (user.userRole== 'instructor' ) { %>
+    <% include ../viewcommn/instructornav.ejs%>
+    <% } else { %>
+    <% include ../viewcommn/adminComman.ejs %>
+    <% } %>  
+    <div >
+        <div >
+            
+        <div>
+          <div style="background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;margin-left: 5%;margin-right: 5%;">
+            <h3><i class="fa fa-book"></i>&nbsp;<b>Update course form</b></h3>
+            <p>Here you can update te choosen course details.</p>    
+        </div>
+        <br>
+        <div style="background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;margin-left: 5%;margin-right: 5%;">
+        <h6><b>Update <%=course.courseName%> Course</b></h6> <br>
+            <form method="POST" action="/course/editcourse">
+              <input type="hidden" value="<%= course._id %>" name="id">
+                <div class="input-group mb-3">
+                  <div class="input-group-text"><i class="material-icons">
+                    book
+                    </i></div>
+                    <input type="text" class="form-control" name="name" value="<%=course.courseName%>">
+                  </div>
+
+                  <div class="input-group mb-3">
+                    <div class="input-group-text"><i class="fa fa-clock">
+                      
+                      </i></div>
+                    <input type="number" class="form-control" name="hourse"value="<%=course.hourse%>">
+                  </div>
+                     <div class="input-group mb-3">
+                      <div class="input-group-text"><i class="fa fa-users">
+                        
+                        </i></div>
+                               <input type="number" class="form-control" name="num"value="<%=course.numOfStudent%>">
+                             </div>
+                              <div class="input-group mb-3">
+                             <!-- <div class="input-group-prepend">
+                           <span class="input-group-text">rate</span>
+                       </div> -->
+                        <input type="hidden" class="form-control" name="courseRate" value=<%= course.courseRate %>>
+                        <% if(course.prereq) {%>
+                        <input type="hidden" class="form-control" name="prereq" value="<%= course.prereq %>">
+                        <% } else { %>
+                        <input type="hidden" class="form-control" name="prereq" value="None">
+                          <% } %>
+                            </div>
+                            <div class="form-group">
+                 <label class="col-sm-3 form-control-label">department</label>
+                 <div class="col-sm-9">
+                   <select name="department"  class="form-control mb-3">
+                    <option><%=course.department%></option>
+                    <% for(let department of Department) { %>
+                        <option><%= (department.deptName) %> </option>
+                          <% } %>
+                      </select>
+                     </div></div>
+                <div class="modal-footer" style="float: left;">
+                    <button type="submit" class="btn btn-info">
+                        Update course
+                    </button>
+                </div>
+
+            </form>
+            <br>
+        </div>
+        </div>
+    </div>
+            
+        </div>
+
+    
+    
+
+    <div class="push"></div>
+    <!-- FOOTER -->
+    <% include ../viewcommn/footer.ejs %>
+</body>
+
+</html>

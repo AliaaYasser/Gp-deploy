@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Courgette:400,700">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+<link rel="stylesheet" href="../../public/stylesheets/story board/style.css">
+<link rel="stylesheet" href="../../public/stylesheets/viewstyle.css"/>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="../../public/stylesheets/popup.css">
+<link rel="stylesheet" href="../../public/stylesheets/navigation.css">
+<title>I Learn</title>
+<link rel="shortcut icon" href="../../public/images/i learn.png"  type="image/png" />
+<style>
+	.alert {
+  padding: 20px;
+  background-color: rgba(21, 109, 122,0.8);
+  color: white;
+  font-size: 15px;
+}
+
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
+}
+</style>
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!-- Masthead -->
+<header >
+	<nav class="navbar navbar-expand-lg " style="color: white;">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+		  <span class="navbar-toggler-icon"></span>
+		</button><input type="hidden" value="<%=user._id%>" id="userid">
+		<div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+		  <img src="/public/images/i learn.png" width="25" height="30" style="color: white;">
+		 <% if(user.userRole == 'instructor') {%>
+		  <a class="navbar-brand" href="/instructor" style="color: #333;font-family:fantasy;font-size: 25px;"> &nbsp; <%= user.userName %></a>
+		  <% }else{ %> 
+			<a class="navbar-brand" href="/student" style="color: #333;font-family:fantasy;font-size: 25px;"> &nbsp; <%= user.userName %></a>
+		<% } %>
+		  <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+		  
+		  </ul>
+		  <div>
+
+		  </div>
+			<!-- <a href="/announce/announcement" style="color: #333;"><span class="fas fa-bullhorn" style="padding-right: 20px;" title="announcements"></span></a> -->
+			<a href="../../logout"><button type="button" class="btn btn-danger" style="width: 80px;height: 35px;font-size: 15px;">LogOut!</button></a>
+		</div>
+		</div>
+	  </nav>
+</header>
+<!-- End of masthead -->
+<div class="alert" style="width: 80%;height: 20%;margin-left: 10%;padding-bottom: 2.5%;margin-bottom: 5%;">
+	<strong>Info!</strong> Here is the course plan, please read it carefully and always be updated. Also from here you can navigate to any page related to the course.
+</div>
+<!-- Board info bar -->
+<br>
+<section class="board-info-bar" style="margin-left: 2%;margin-top: 3%;">
+	<div class="board-controls">
+		
+		<a onclick="myFunction('DIV')"><button class="board-title btn">
+			<h2 style="color: #333;text-transform: capitalize;"><%= courses.courseName%> Storyboard <i class="fa fa-sort" aria-hidden="true" style="color: #333;"></i></h2>
+		</button></a>
+
+		<button class="star-btn btn" style="color: #333;" aria-label="Star Board">
+			<i class="far fa-star" aria-hidden="false"></i>
+		</button>
+
+		<!-- <button class="personal-btn btn" style="color: #333;">Personal</button> -->
+
+		<!-- <button class="private-btn btn"style="color: #333;"><i class="fas fa-briefcase private-btn-icon" aria-hidden="true"></i>Private</button> -->
+		<% if(user.userRole == 'instructor') {%>
+		<a style="color: #333;" href="../list_course_student/<%=(courses.id)%>" style="text-decoration: none;"> <button class="private-btn btn"style="color: #333;"><i class="fa fa-users" aria-hidden="true"></i> Students</button></a>
+		<a style="color: #333;" href="../../fileView/<%=(courses.id)%>" style="text-decoration: none;"> <button class="private-btn btn"style="color: #333;"><i class="fa fa-folder-open" aria-hidden="true"></i> Materials</button></a>
+		<a style="color: #333;" href="../courseblog/<%= courses.id %>" style="text-decoration: none;"> <button class="private-btn btn"style="color: #333;"><i class="fa fa-newspaper" aria-hidden="true"></i> Posts</button></a>
+		<a style="color: #333;" href="../addProject/<%=(courses.id)%>" style="text-decoration: none;"> <button class="private-btn btn"style="color: #333;"><i class="fa fa-laptop" aria-hidden="true"></i> Add project</button></a>
+		<!-- <a style="color: #333;" href="../ListProject/<%=(courses.id)%>" style="text-decoration: none;"> <button class="private-btn btn"style="color: #333;"><i class="fa fa-eye" aria-hidden="true"></i> View project</button></a> -->
+		<!-- <a style="color: #333;" href="../Listprojectform/<%= courses.id%>" style="text-decoration: none;"> <button class="private-btn btn"style="color: #333;"><i class="fa fa-users" aria-hidden="true"></i> List registered students</button></a> -->
+	    <button class="private-btn btn"style="color: #333;" id="modalBtn"><i class="fa fa-sticky-note" aria-hidden="true"></i> Add new task</button>
+		 <% } else{%> 
+		<a style="color: #333;" href="../../fileView/<%=(courses.id)%>" style="text-decoration: none;"> <button class="private-btn btn"style="color: #333;"><i class="fa fa-folder-open" aria-hidden="true"></i> Materials</button></a>
+		<a style="color: #333;" href="../courseblog/<%= courses.id %>" style="text-decoration: none;"> <button class="private-btn btn"style="color: #333;"><i class="fa fa-newspaper" aria-hidden="true"></i> Posts</button></a>
+		<% i=0; %>
+		<% for (let project of Project) { %>
+			<%if(project.CourseName==courses.courseName){ i++ }} %>
+		<% if(i>0){%>
+		<a style="color: #333;" href="../../course/form/<%=(courses.id)%>" style="text-decoration: none;"> <button class="private-btn btn"style="color: #333;"><i class="fa fa-laptop" aria-hidden="true"></i> Project form</button></a>
+		<%}%>
+		<% if(status == 'Opened'){%>
+		<a style="color: #333;" href="../../course/dropcourse/<%=(courses.id)%>" style="text-decoration: none;"> <button class="private-btn btn" style="color: #333;"><i class="fa fa-trash" aria-hidden="true"></i> Drop course</button></a>
+		<%}%>
+		<%}%>
+	</div>
+</section>
+<div id="DIV" style="border: 3px solid rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;margin-left: 3%;margin-right: 5%;display: none;width: 30%;background-color: white;">
+	<h5>Department:<b>  <%=(courses.department)%></b></h5> <hr> 
+	<h5>Pre-request Course:<b>  <%=(courses.prereq)%></b></h5> <hr> 
+	<h5>Hours:<b>   <%=(courses.hourse)%></b></h5>
+  </div>
+
+<!-- End of board info bar -->
+
+<% include liststoryboard.ejs%>
+<input type="hidden" value="<%= user._id%>" id="userid" name="userid">
+<% if(user.userRole == 'instructor') {%>
+<!-- <button id="modalBtn" class="btn-dark btn" style="font-size: 25;width: 40%;height: 10%;"><h5>Add Card</h5></button> -->
+<%}%>
+<div id="simpleModal" class="modal">
+	<div class="modal-content">
+		<div class="modal-header">
+			<span class="closeBtn">&times;</span>
+			<h2> Create card </h2>
+		</div>
+
+
+		<div class="modal-body">
+			<form action="/course/storyboard" method="POST">	
+				<input type="hidden" value="<%= courses.id %>" name="Courseid">
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+					  <span class="input-group-text">Card Content</span>
+					</div>
+					<input type="text" class="form-control"name="CardContent">
+				  </div>
+			
+		</div>
+
+		<div class="modal-footer">
+			<input type="hidden" value="<%=user.userName%>" id="userName" name="userName">
+			<input type="hidden" value="<%= courses.courseName %>" id="courseName" name="courseName">
+			<input type="hidden" value="Your instructor add new Card to '<%= courses.courseName %>' please check it" id="notfiContant"name="notfiContant">
+			<%for(let userr of userrs){%>
+				 
+				<input class="hh" type="hidden" value="<%=userr.id%>" id="tostudent" name="tostudent">
+				
+		  <%}%>
+			<input type="hidden" value="<%=user._id%>" id="userid" name="userid">
+
+			<button type="submit" class="btn btn-info" id="addBtn">
+				Add Card
+			</button>
+		</div>
+	</form>
+	</div>
+
+</div>
+
+</section>
+<!-- End of lists container -->
+<!-- partial -->
+  <script  src="../../public/stylesheets/story board/script.js"></script>
+  <script src="../../public/javascripts/popup.js">
+  </script>
+    <!-- <script src="../../public/javascripts/drag&drop.js"></script> -->
+	<script src = "/socket.io/socket.io.js"></script>
+	<script src="../../public/javascripts/sockets/init.js"></script>
+	<!-- <script>
+	  var list = document.getElementsByClassName("hh");
+	  for (var i = 0; i < list.length; i++) {
+	   list[i].setAttribute("id", "tostudent" + i);
+	  }
+	</script> -->
+	<script>
+		  const addBtn=document.getElementById('addBtn')
+  
+		  
+		  const notfiContant = document.getElementById('notfiContant').value
+		  const userid = document.getElementById('userid').value
+		  const courseName=document.getElementById('courseName').value
+		  var list = document.getElementsByClassName("hh");
+	  for (var i = 0; i < list.length; i++) {
+	   list[i].setAttribute("id", "tostudent" + i);
+	  }var tostudent=[]
+		  for(var i=0;i<list.length;i++){
+			  
+			  
+			  tostudent.push(document.getElementById('tostudent'+[i]).value)
+		  console.log(tostudent)
+		  }
+		  console.log('too',tostudent)
+		  
+		  
+		  const userName = document.getElementById('userName').value
+		  addBtn.onclick=(e)=>{
+			  
+			  // e.preventDefault();
+			  socket.emit('notfiaddcard',{
+				  userName,notfiContant,userid,tostudent,courseName
+			  })
+		  }
+	</script>
+	<script>
+		function myFunction(name) {
+		  var x = document.getElementById(name);    
+		  if (x.style.display === "none") {
+			x.style.display = "block";
+		  } else {
+			x.style.display = "none";
+		  }
+		}
+		</script> 
+
+<% include ../viewcommn/footer.ejs%>
+
+  </body>
+  </html>

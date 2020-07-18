@@ -1,0 +1,67 @@
+
+<% include ../viewcommn/adminComman.ejs%>
+
+
+<div style="height: 100%;margin-left: 5%;margin-right: 5%; ">
+    <div style="text-transform: capitalize;">
+        <div  style="color: #555;">
+
+<% if(User.length > 0){ %>   
+    
+    <div style="background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;">
+        <h3><i class="fa fa-graduation-cap"></i>&nbsp;<b>Add new team</b></h3>
+        <p>Here you can add Teamleader Name and Members Number.</p>    
+    </div>
+    <br>
+<div style="background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;">
+    <h5><b>Seniors Form</b></h5><br>
+<form class="gp-form" action="/gp/addteam" method="POST">
+              
+    <div class="split right">
+        <div class="col-sm-10 my-1">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"><i class="material-icons">
+                    person
+                    </i></div>
+                </div>
+                    <select name="teamleader" class="form-control" id= "teamleader" >
+                        <% for(let doc of User) { %>
+                        <option ><%= (doc.userName) %> </option>
+                                  <% } %>
+                    </select>
+            </div>
+            <br>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Members Number</span>
+                </div>
+                <input type="number" class="form-control" name="members">
+              </div>
+        </div>
+        <div class="col-auto my-1">
+          <button type="submit" class="btn btn-info">Add Team</button>
+        </div>
+    </div>
+</form>
+</div>
+<% } else {  %>
+    <div >
+    <div style="color: #555;background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;margin-bottom: 25%;" >
+        <form class="gp-form" action="" method="POST" >
+                    
+            <div>
+                <h3><b>Note!</b></h3>
+                <p>All level four students are registered.</p>
+            </div>
+            </div>
+        </form>
+    </div>
+        </div>
+    <% } %>
+</div></div></div>
+<div class="push" style="margin-top:4.4%">
+<% include ../viewcommn/footer.ejs%>
+</div>
+</body>
+</html>

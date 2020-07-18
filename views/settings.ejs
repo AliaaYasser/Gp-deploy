@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../stylesheets/viewstyle.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../stylesheets/popup.css">
+          <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
+            integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+  
+    
+    <style>
+    .wrapper{
+            min-height: 100%;
+            margin-bottom: -50px;
+        }
+        .footer,.push{
+            height: 50px;
+        }
+        .checked {
+  color: orange;
+}
+    </style>
+
+</head>
+
+<body style="height: 100%;">
+    <% include viewcommn/adminComman.ejs%>
+
+    <div style="height: 100%; width:90%;margin-left:5%;margin-right:5%">
+        <div style="background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;">
+            <h3 style="margin-left: 0px;"><i class="fa fa-cogs"> </i>  <b>System Settings</b>
+                 <!-- <a id="modalBtn" class="btn btn-info" style="color: white;">Add New Settings <i class="fa fa-plus"></i></a> -->
+                </h3>
+            <p >You Have the right to manage all the settings available for you.</p>     
+        </div>
+        <div >
+            <div >        
+                <div id="simpleModal" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span class="closeBtn">&times;</span>
+                            <h2>Add New Option </h2>
+                        </div>
+                        
+                        <div class="modal-body">
+                            <form method="POST" action="settings">                            
+                                <div class="split right">
+                                      <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                          <span class="input-group-text">Option Name</span>
+                                        </div>
+                                        <input id="setting-name" type="text" name="name" required data-msg="setting-name" class="input-material">
+                                      </div>
+                                    <div class="col-auto my-1">
+                                      <button type="submit" class="btn btn-info">Add</button>
+                                    </div><br>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+        <div >
+<table class="table" style="text-align:left;">
+     
+        <tbody>
+        <% for(let sett of settings) { %>
+            <tr>
+              <td><%= (sett.option) %> </td>
+             <td><%= (sett.status) %> </td>
+             <td style="width: 15%;"><div class="btn-group">
+                <a href="/settings/open/<%=sett.id%>"   class=" btn btn-success"><i class="fa fa-plus"></i> Open</a>
+                <a href="/settings/close/<%=sett.id%>"   class="btn btn-danger"><i class="fas fa-times"></i> Close</a>
+                </div></td>
+            </tr>
+            <% } %>
+
+        </tbody>
+    </table>
+      </div>
+    <div style="background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;">
+        <h3 style="margin-left: 0px;"><i class="fa fa-cogs"> </i>  <b>Advanced Settings</b></h3>
+        <p >You Have the right to manage all the settings available for you.</p>     
+    </div>
+    <table class="table" style="text-align:left">
+      
+        <tbody>
+            <tr>
+              <td>Clear All Enrollments.</td>
+             <td style="margin-left: 100%;width: 10%;"><div class="btn-group">
+                <a href="/course/clearenroll"   class="btn btn-danger"><i class="fas fa-trash"></i> Clear</a>
+                </div></td>
+            </tr>
+            <tr>
+                <td>Clear All Assigned Courses.</td>
+               <td style="margin-left: 100%;"><div class="btn-group" >
+                  <a href="/course/clearassigns"   class="btn btn-danger"><i class="fas fa-trash"></i> Clear</a>
+                  </div></td>
+                  
+              </tr>
+              <tr>
+                <td>Clear All Announcements.</td>
+               <td style="margin-left: 100%;"><div class="btn-group">
+                  <a href="/announce/clear"   class="btn btn-danger"><i class="fas fa-trash"></i> Clear</a>
+                  </div></td>
+                  
+              </tr>
+              <tr>
+                <td>Clear All GP Requests.</td>
+               <td style="margin-left: 100%;"><div class="btn-group">
+                  <a href="/gp/clear"   class="btn btn-danger"><i class="fas fa-trash"></i> Clear</a>
+                  </div></td>
+                  
+              </tr>
+              <tr>
+                <td>Empty All DB Records.<br> <p>please, note that when you click clear will empty all your data in the system.</p></td>
+               <td style="margin-left: 100%;"><div class="btn-group">
+                  <a href="/settings/clear"   class="btn btn-danger"><i class="fas fa-trash"></i> Clear</a>
+                  </div></td>
+                  
+              </tr>
+        </tbody>
+    </table>
+        </div>
+    </div>
+</div>
+<div class="push"></div>
+<% include viewcommn/footer.ejs %>
+
+<script src="../../javascripts/popup.js">
+</script>
+
+<script>
+    function Delete() {
+        alert("Course X deleted successfully");
+    }
+</script>
+</body>
+
+
+</html>

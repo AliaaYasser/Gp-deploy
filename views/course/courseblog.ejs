@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <!-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script> -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+                crossorigin="anonymous">
+                
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                crossorigin="anonymous"></script>
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+                crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+                crossorigin="anonymous"></script> 
+                
+<head>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="../../public/stylesheets/postbox.css">
+</head>
+
+<body style="height: 100%;">
+    <% if (user.userRole== 'instructor' ) { %>
+        <input type="hidden" value="<%= user._id%>" id="userid" name="userid">
+      <% include ../viewcommn/instructornavpost.ejs%>
+    <% } else { %>
+        <input type="hidden" value="<%= user._id%>" id="userid" name="userid">
+      <% include ../viewcommn/studentnavpost.ejs %>
+    <% } %>
+    <div style="margin-right: 5%;margin-left: 5%;background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;">
+        <h3><i class="fa fa-newspaper"></i>&nbsp;<b><%= course[0].courseName %> Posts</b>
+            <a href="../../course/storyboard/<%=(course[0].id)%>"><button type="submit" class="btn btn-info" id="addBtn" style="margin-right: 2%;float: right;"><i class="fa fa-map" style="color:white;"></i> 
+                Board
+              </button></a>
+        </h3>
+        <p>Here you can communicate with anyone registered in this course.</p>  
+        
+        <section>
+            <div class="text">
+              <!-- <p style="margin-bottom: 2%;">Write a post inside <%= course[0].courseName %> course in the below text.</p> -->
+              <form action="/course/addpost" method="POST"> 
+              <textarea placeholder="Add a post inside this course.." type="text" id="postcontent" name="postcontent" ></textarea>
+              <button type="submit"  value="Submit" id="addBtn">
+                <input type="hidden" value="<%=user._id%>" id="userid" name="userid">
+                <input type="hidden" value="<%= course[0].courseName %>" id="courseName" name="courseName">
+                <input type="hidden" value="New post on <%= course[0].courseName %> check it. " id="notfiContant"name="notfiContant"> 
+                <%for(let userr of userrs){%>
+				 
+                    <input class="hh" type="hidden" value="<%=userr.id%>" id="tostudent" name="tostudent">
+                    
+              <%}%>
+              
+			<input type="hidden" value="<%=user.userName%>" id="userName" name="userName">
+                Post</button>
+            </form >   
+            </div>
+          </section>
+        <br><br>
+    </div>
+      
+  <% if(posts){ %>
+    <% posts.forEach(function(post) { %>   
+     <%  if (post.username==user.userName) {    %>
+      <div class="card gedf-card" style="width: 95%;background-color: white;border-radius: 10px;">
+          <div class="card-header" style="background-color: white;">
+              <div class="d-flex justify-content-between align-items-center">
+                  <div class="d-flex justify-content-between align-items-center">
+                     
+                      <div class="ml-2" >
+                          <div class="h5 m-0" ><strong style="color: #0077CC"><%= post.username %></strong></div>
+                          <div class="h7 text-muted"><%= post.usertype %></div>
+                      </div>
+                  </div>
+                  <div>
+                      <div class="dropdown">
+                          
+                              <form action="/course/deletepost/<%= post._id %>" method="POST">
+                                <button type="submit"  class="btn btn-danger" style="color: white;"><i class="fas fa-times"></i> </button>
+                            </form>
+                         
+                          
+                      </div>
+                  </div>
+              </div>
+
+          </div>
+          <div class="card-body" style="background-color: white" >
+              <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i><%= post.posttime %></div>
+              
+
+              <p class="card-text">
+                <br>
+                  <%= post.postcontent %>
+                  <br> <br>
+              </p>
+          </div>
+          <% if(post.comments.length>0){ %>
+            <% if(post.comments.length<=5){ %>  
+                <% var flag =0 %>
+                <div class="card-footer">
+            
+          
+                    <a   class="card-link"> full comments  <i class="fa fa-comments   "></i></a>
+                    
+                </div>   
+                <% } else{ %> 
+                    <% if(post.comments.length>5){ %> 
+                        <% var flag =1 %>
+          <div class="card-footer">
+            
+           
+              <a   href="/course/postdetails/<%=post._id %>" class="card-link">click to see full comments  <i class="fa fa-comments   "></i></a>
+               
+          </div> 
+          <% }%>
+             <% } %>   
+             
+               
+                <% } else {%> 
+                    <div class="card-footer">
+            
+           
+                        <a   class="card-link"> be the first to comment  <i class="fa fa-comments   "></i></a>
+                         
+                    </div> 
+                    <% } %> 
+
+          <% if(post.comments.length>0 && flag==1){ %>
+            <% for(var i=post.comments.length-3; i<post.comments.length; i++) { %>  
+          <%  if (post.comments[i].user ==user.userName) {    %> 
+<div class="col-sm-5" style=" width: 100%">
+    <div class="panel panel-default" style="background-color: rgba(27, 151, 170,0.08);margin-left: 2%;margin-right: 2%;margin-bottom: 3%;border-radius: 1%;padding:2%;width: 240%;margin-top:3%">
+    <div class="panel-heading" >
+        <form action="/course/deletecomment/<%= post._id %>/<%= post.comments[i]._id %>" method="POST" style="float: right;">
+            <button type="submit"  class="btn btn-danger" style="color: white;"><i class="fas fa-times"></i></button>
+        </form>
+    <strong><%=post.comments[i].user %></strong> <br> <span class="text-muted">at &nbsp; <%=post.comments[i].comtime %> </span> 
+    <hr>
+    </div>
+    <div class="panel-body" >
+        <%=post.comments[i].commentcontent %>
+    </div><!-- /panel-body -->
+    </div><!-- /panel panel-default -->
+    </div><!-- /col-sm-5 -->
+    <% } else { %> 
+      <div class="col-sm-5" style=" width: 100%; margin: 10px">
+          <div class="panel panel-default" style="background-color: rgba(27, 151, 170,0.08);margin-left: 1%;margin-right: 1%;margin-bottom: 3%;border-radius: 1%;padding:2%;width: 240%;margin-top:3%">
+          <div class="panel-heading">
+          <strong><%=post.comments[i].user %></strong> <br> <span class="text-muted">at &nbsp;<%=post.comments[i].comtime %></span> 
+         <hr>
+          </div>
+          <div class="panel-body">
+              <%=post.comments[i].commentcontent %>
+          </div><!-- /panel-body -->
+          </div><!-- /panel panel-default -->
+          </div><!-- /col-sm-5 -->
+      <% } %>
+     <% } %> 
+    <% } else { %>
+        <% if(post.comments.length>0 && flag==0){ %>
+            <% for(var i=0; i<post.comments.length; i++) { %>  
+          <%  if (post.comments[i].user ==user.userName) {    %> 
+<div class="col-sm-5" style=" width: 100%">
+    <div class="panel panel-default" style="background-color: rgba(27, 151, 170,0.08);margin-left: 2%;margin-right: 2%;margin-bottom: 3%;border-radius: 1%;padding:2%;width: 240%;margin-top:3%">
+    <div class="panel-heading">
+        <form action="/course/deletecomment/<%= post._id %>/<%= post.comments[i]._id %>" method="POST" style="float: right;">
+            <button type="submit"  class="btn btn-danger" style="color: white;"><i class="fas fa-times"></i></button>
+        </form>
+    <strong><%=post.comments[i].user %></strong> <br> <span class="text-muted">at &nbsp;<%=post.comments[i].comtime %></span> 
+    <hr>
+    </div>
+    <div class="panel-body">
+        <%=post.comments[i].commentcontent %>
+    </div><!-- /panel-body -->
+    </div><!-- /panel panel-default -->
+    </div><!-- /col-sm-5 -->
+    <% } else { %> 
+      <div class="col-sm-5" style=" width: 100%; margin: 10px">
+          <div class="panel panel-default" style="background-color: rgba(27, 151, 170,0.08);margin-left: 1%;margin-right: 1%;margin-bottom: 3%;border-radius: 1%;padding:2%;width: 240%;margin-top:3%">
+          <div class="panel-heading">
+          <strong><%=post.comments[i].user %></strong> <br> <span class="text-muted">at &nbsp;<%=post.comments[i].comtime %></span> 
+         <hr>
+          </div>
+          <div class="panel-body">
+              <%=post.comments[i].commentcontent %>
+          </div><!-- /panel-body -->
+          </div><!-- /panel panel-default -->
+          </div><!-- /col-sm-5 -->
+      <% } %>
+     <% } %>  
+     <% } %> 
+     <% } %> 
+<br>
+
+
+        
+            <br>
+              <form action="/course/addcomment" method="POST" style="margin-left: 2%;margin-top: 2%;">
+                <input type="hidden" id="postid" name="postid" value="<%= post._id %>" >
+               <input style = width:40%;  placeholder="Add a comment ..." type="text" id="commentcontent" name="commentcontent" class="commentcontent"> 
+               <button type="submit" class="btn btn-primary" value="Submit" style="height: 70%;">Submit</button> 
+              </form >   
+              
+              </div>
+            
+          
+          <br>
+              </div>
+          
+          
+      </div>
+
+        <% } else { %>   
+          <div class="card gedf-card" style="width: 95%;background-color: white;border-radius: 10px;">
+              <div class="card-header" style="background-color: white;">
+                  <div class="d-flex justify-content-between align-items-center">
+                      <div class="d-flex justify-content-between align-items-center">
+                         
+                          <div class="ml-2">
+                              <div class="h5 m-0" ><strong style="color: #0077CC"><%= post.username %></strong></div>
+                              <div class="h7 text-muted"><%= post.usertype %></div>
+                          </div>
+                      </div>
+                      <div>
+                          
+                      </div>
+                  </div>
+    
+              </div>
+              <div class="card-body" style="background-color: white" >
+                  <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i><%= post.posttime %></div>
+                  
+    
+                  <p class="card-text">
+                    <br>
+                      <%= post.postcontent %>
+                      <br> <br>
+                  </p>
+              </div>
+              <% if(post.comments.length>0){ %>
+                <% if(post.comments.length<=5){ %>  
+                    <% var flag =0 %>
+                    <div class="card-footer">
+                
+              
+                        <a   class="card-link"> full comments  <i class="fa fa-comments   "></i></a>
+                        
+                    </div>   
+                    <% } else{ %> 
+                        <% if(post.comments.length>5){ %> 
+                            <% var flag =1 %>
+              <div class="card-footer">
+                
+               
+                  <a  href="/course/postdetails/<%=post._id %>" class="card-link">click to see full comments  <i class="fa fa-comments   "></i></a>
+                   
+              </div> 
+              <% }%>
+                 <% } %>   
+                 
+                   
+                    <% } else {%> 
+                        <div class="card-footer">
+                
+               
+                            <a   class="card-link"> be the first to comment  <i class="fa fa-comments   "></i></a>
+                             
+                        </div> 
+                        <% } %> 
+    
+                        <% if(post.comments.length>0 && flag==1){ %>
+                            <% for(var i=post.comments.length-3; i<post.comments.length; i++) { %>  
+                          <%  if (post.comments[i].user ==user.userName) {    %> 
+                <div class="col-sm-5" style="width: 100%">
+                    <div class="panel panel-default" style="background-color: rgba(27, 151, 170,0.08);margin-left: 2%;margin-right: 2%;margin-bottom: 3%;border-radius: 1%;padding:2%;width: 240%;margin-top:3%">
+                    <div class="panel-heading">
+                        <form action="/course/deletecomment/<%= post._id %>/<%= post.comments[i]._id %>" method="POST" style="float: right;">
+                            <button type="submit"  class="btn btn-danger" style="color: white;"><i class="fas fa-times"></i></button>
+                        </form>
+                    <strong><%=post.comments[i].user %></strong> <br> <span class="text-muted">at &nbsp;<%=post.comments[i].comtime %></span> 
+                    <hr>
+                       
+                    </div>
+                    <div class="panel-body">
+                        <%=post.comments[i].commentcontent %>
+                    </div><!-- /panel-body -->
+                    </div><!-- /panel panel-default -->
+                    </div><!-- /col-sm-5 -->
+                    <% } else { %> 
+                      <div class="col-sm-5" style=" width: 100%; margin: 10px">
+                          <div class="panel panel-default" style="background-color: rgba(27, 151, 170,0.08);margin-left: 1%;margin-right: 2%;margin-bottom: 3%;border-radius: 1%;padding:2%;width: 240%;margin-top:3%">
+                          <div class="panel-heading">
+                          <strong><%=post.comments[i].user %></strong> <br><span class="text-muted">at &nbsp; <%=post.comments[i].comtime %></span> 
+                            <hr>
+                          </div>
+                          <div class="panel-body">
+                              <%=post.comments[i].commentcontent %>
+                          </div><!-- /panel-body -->
+                          </div><!-- /panel panel-default -->
+                          </div><!-- /col-sm-5 -->
+                      <% } %>
+                     <% } %> 
+                    <% } else { %>
+                        <% if(post.comments.length>0 && flag==0){ %>
+                            <% for(var i=0; i<post.comments.length; i++) { %>  
+                          <%  if (post.comments[i].user ==user.userName) {    %> 
+                <div class="col-sm-5" style=" width: 100%">
+                    <div class="panel panel-default" style="background-color: rgba(27, 151, 170,0.08);margin-left: 2%;margin-right: 2%;margin-bottom: 3%;border-radius: 1%;padding:2%;width: 240%;margin-top:3%">
+                    <div class="panel-heading">
+                         <form action="/course/deletecomment/<%= post._id %>/<%= post.comments[i]._id %>" method="POST" style="float: right;">
+                            <button type="submit"  class="btn btn-danger" style="color: white;"><i class="fas fa-times"></i></button>
+                        </form>
+                    <strong><%=post.comments[i].user %></strong> <br> <span class="text-muted">at &nbsp; <%=post.comments[i].comtime %></span> 
+                    <hr>
+                    </div>
+                    <div class="panel-body">
+                        <%=post.comments[i].commentcontent %>
+                    </div><!-- /panel-body -->
+                    </div><!-- /panel panel-default -->
+                    </div><!-- /col-sm-5 -->
+                    <% } else { %> 
+                      <div class="col-sm-5" style=" width: 100%; margin: 10px">
+                          <div class="panel panel-default" style="background-color: rgba(27, 151, 170,0.08);margin-left: 1%;margin-right: 2%;margin-bottom: 3%;border-radius: 1%;padding:2%;width: 240%;margin-top:3%">
+                          <div class="panel-heading">
+                          <strong><%=post.comments[i].user %></strong><br> <span class="text-muted">at &nbsp; <%=post.comments[i].comtime %></span> 
+                         <hr>
+                          </div>
+                          <div class="panel-body">
+                              <%=post.comments[i].commentcontent %>
+                          </div><!-- /panel-body -->
+                          </div><!-- /panel panel-default -->
+                          </div><!-- /col-sm-5 -->
+                      <% } %>
+                     <% } %>  
+                     <% } %> 
+                     <% } %> 
+                <br>
+                
+    
+    
+            
+                <br>
+                  <form action="/course/addcomment" method="POST" style="margin-left: 2%;margin-top: 2%;">
+                    <input type="hidden" id="postid" name="postid" value="<%= post._id %>" >
+                   <input style = width:40%;  placeholder="Add a comment ..." type="text" id="commentcontent" name="commentcontent" class="commentcontent"> 
+                   <button type="submit"   class="btn btn-primary"value="Submit" style="height: 70%;">Submit</button> 
+                  </form >   
+                  
+                  </div>
+                
+              
+              <br>
+                  </div>
+              
+              
+          </div>
+          <% } %>
+        
+      <% }) %> 
+      
+   
+      <% } else { %>
+        <p>No files to show</p>
+        <% } %>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+    <div style="margin-top: 19%;">
+      <% include ../viewcommn/footer.ejs%>
+    </div>
+    <script src = "/socket.io/socket.io.js"></script>
+<script src="../../public/javascripts/sockets/init.js"></script>
+<script>
+		  
+		  const notfiContant = document.getElementById('notfiContant').value
+		  const userid = document.getElementById('userid').value
+		  const courseName=document.getElementById('courseName').value
+		  var list = document.getElementsByClassName("hh");
+	  for (var i = 0; i < list.length; i++) {
+	   list[i].setAttribute("id", "tostudent" + i);
+	  }var tostudent=[]
+		  for(var i=0;i<list.length;i++){
+			  
+			  
+			  tostudent.push(document.getElementById('tostudent'+[i]).value)
+		  }
+		  
+		  
+		  const userName = document.getElementById('userName').value
+		  addBtn.onclick=(e)=>{
+			  
+			  // e.preventDefault();
+			  socket.emit('notfiaddcard',{
+				  userName,notfiContant,userid,tostudent,courseName
+			  })
+		  }
+        </script>
+</body>
+  
+</html>

@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  <style>
+    .wrapper{
+            min-height: 100%;
+            margin-bottom: -50px;
+        }
+        .footer,.push{
+            height: 50px;
+        }
+        .checked {
+  color: orange;
+}
+    </style>
+
+</head>
+
+<body  style="background-color:rgb(249,249,249);height: 100%;">
+<% include ../viewcommn/studentnav.ejs%>
+<% if(courses.length >0){ %>
+<div class="Contanier">
+<div style="margin-left: 10%;">
+    <br><br>
+    <h3><b>My Courses</b>
+    <a href="../course/courserating"><button type="button" class="btn btn-success" >Rate courses</button></a>
+    </h3>
+    <p>Here is all the courses you have registered.</p>
+</div>
+<div style="height: 100%;width:100%;margin-left: 10%;margin-right: 5%;">
+
+<center>
+<% for (let course of courses) { %>
+
+  <a href="../fileView/<%=(course.id)%>">
+  
+  <div  class="w3-card-2 w3-margin" style="width:25%;float:left;">
+    <div class="w3-display-container w3-text-white">
+      <img src="/public/images/books.jpg" alt="Lights" style="width:100%">
+      <% if(status == 'Opened'){%>
+      <div class="w3-xlarge w3-display-bottomleft w3-padding">
+        <a href="../course/dropcourse/<%=(course.id)%>"  class="btn btn-light" style="background-color: #B22222;color: white;"><i class="material-icons"></i>Drop Course</a>
+      </div>
+      <% } %>
+      <% for (let project of Project) { %>
+        <%if(project.CourseName==course.courseName){ %>
+      <div class="w3-xlarge w3-display-bottomright w3-padding">
+        <a href="../course/form/<%=(course.id)%>"  class="btn btn-light" style="background-color: #333333;color: white;"><i class="material-icons"></i>Regester project</a>
+      </div>
+      <%}}%>
+    </div>
+    <br>
+    <!-- <a href="../QuizView/<%=(course.id)%>">quiz</a> -->
+    <div class="w3-row">
+      <div class="w3-third w4-center" style="text-transform: uppercase;align-content: center;">
+        <p><b>Course</b></p>
+        <h6 ><b><%= course.courseName%></b></h6>
+      </div>
+      <div class="w3-third w4-center" style="text-transform: uppercase;align-content: center;">
+        <p><b>BOARD</b></p>
+        <a href="storyboard/<%=(course.id)%>"  class="btn btn-light" style="background-color: white;"><i class="material-icons">developer_board</i> </a>
+        <br>
+      </div>
+      <div class="w3-third w4-center" style="text-transform: uppercase;align-content: center;">
+        <p><b>Department</b></p>
+        <h6><b><%= course.department%></b></h6> 
+      </div>
+    </div>
+  </div>
+</a>
+<% } %>
+
+</center>
+</div>
+</div>
+ <% } else { %>
+        <h1>No Courses Found!</h1>
+        <% } %>
+<div class="push" style="margin-top:70%">
+
+  <% include ../viewcommn/footer.ejs%>
+</div>
+
+
+
+
+</body></html>

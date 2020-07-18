@@ -1,0 +1,304 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="../../public/stylesheets/popup.css">
+    <style>
+      * {
+          box-sizing: border-box;
+        }
+    /* Create three equal columns that floats next to each other */
+    .coco {
+      float: left;
+      width: 65%;
+      overflow-x: auto;
+    }
+    .coco1 {
+      float: right;
+      width: 30%;
+      height: 750px;
+      overflow: auto;
+    }
+
+    .cococourse {
+      float: left;
+      width: 30%;
+ 
+    }
+    /* Clear floats after the columns */
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+    .container {
+  border: 2px solid #dedede;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+  
+}
+
+.darker {
+  border-color: #ccc;
+  background-color: #ddd;
+}
+
+.container::after {
+  clear: both;
+  display: table;
+}
+
+.time-right {
+  float: right;
+  color: #aaa;
+}
+
+.time-left {
+  float: left;
+  color: #999;
+}
+    
+    </style>
+      </head>
+  <body>
+    <!-- Header -->
+  <div style="background-color: rgba(27, 151, 170,0.08);margin-left: 2%;margin-right: 2%;padding-bottom: 2%;border-radius: 1%;">
+  <header class="w3-container" style="padding-top:22px;margin-left: 2%;margin-right: 2%;">
+  <% if(user.userRole == 'student') {%>
+    <h3><b><i class="fa fa-dashboard"></i> Student Dashboard</b></h3>
+    <% }else if(user.userRole == 'instructor'){ %>
+      <h3><b><i class="fa fa-dashboard"></i> Instructor Dashboard</b></h3>
+  <% } else {%>
+    <h3><b><i class="fa fa-dashboard"></i> Admin Dashboard</b></h3>
+<% } %>
+  </header>
+
+  <div class="w3-row-padding w3-margin-bottom" style="margin-right: 2%;margin-left: 2%;">
+    <div class="w3-quarter">
+      <div class="w3-container w3-padding-16" style="border-radius: 2%;background-color: rgba(178,34,34, 0.8);">
+        <div class="w3-left w3-text-white"><i class="fa fa-bell w3-xxxlarge"></i></div>
+        <div class="w3-right">
+          <% if(user.userRole == 'student') {%>
+          <h3 style="color: white;"><%= mynotfi.length %></h3>
+          <% } else{%>
+          <h3 style="color: white;">0</h3>
+          <% } %>
+        </div>
+        <div class="w3-clear"></div>
+        <h4 style="color: white;">Notifications</h4>
+      </div>
+    </div>
+    <div class="w3-quarter">
+      <div class="w3-container w3-padding-16" style="border-radius: 2%;background-color: rgba(0,0,128,0.7);">
+        <div class="w3-left w3-text-white" ><i class="fa fa-bullhorn w3-xxxlarge"></i></div>
+        <div class="w3-right">
+          <h3 style="color: white;"><%= myann[0].length %> </h3>
+        </div>
+        <div class="w3-clear"></div>
+        <h4 style="color: white;">Announcements</h4>
+      </div>
+    </div>
+    <div class="w3-quarter">
+      <div class="w3-container w3-padding-16" style="border-radius: 2%;background-color: rgb(55, 207 ,109);">
+        <div class="w3-left w3-text-white"><i class="fa fa-book w3-xxxlarge"></i></div>
+        <div class="w3-right">
+          <h3 style="color: white;"><%= courses.length %></h3>
+        </div>
+        <div class="w3-clear"></div>
+        <h4 style="color: white;">Courses</h4>
+      </div>
+    </div>
+    <div class="w3-quarter">
+      <div class="w3-container w3-padding-16" style="border-radius: 2%;background-color: rgb(231, 175, 34);">
+        <div class="w3-left w3-text-white"><i class="fa fa-mortar-board w3-xxxlarge"></i></div>
+        <div class="w3-right w3-text-white">
+          <h3 style="color: white;"><%= seniors.length %></h3>
+        </div>
+        <div class="w3-clear"></div>
+        <h4 style="color: white;">Seniors Teams</h4>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<div class="row"  style="margin-right: 2%;margin-left: 2%;">
+<% if(user.userRole == 'student' || user.userRole == 'instructor') {%>
+  <div class="coco" style="background-color: rgba(27, 151, 170,0.08);margin-right: 3%;padding-bottom: 2%;border-radius: 1%;height:65%;">
+    <header class="w3-container" style="padding-top:22px;margin-left: 2%;margin-right: 2%;">
+        <h3><b><i class="fa fa-book"></i> My Courses</b>
+          <% if(user.userRole == 'student') {%>
+          <a href="../course/register" style="float: right;"><button type="submit" class="btn btn-dark" id="addBtn" style="margin-right: 0%;"><i class="fa fa-inbox" style="color:white;"></i> 
+            Register
+          </button></a>
+          <% } else if(user.userRole == 'instructor') {%>
+            <a href="/course/req_to_assign" style="float: right;"><button type="submit" class="btn btn-dark" id="addBtn" style="margin-right: 0%;"><i class="fa fa-inbox" style="color:white;"></i> 
+              Register
+            </button></a>
+          <% } %>
+        </h3>
+        <p>Here is a list of your courses</p>
+      </header>
+      <div class="row" style="margin-right: 2%;margin-left: 5%;overflow: auto;height:5%;display: inline-block;position:inherit">
+
+        <% if(courses.length >0){ %>
+        <% for (let co of courses) { %>
+        <a href="../course/storyboard/<%=(co.id)%>"><div class="cococourse" style="margin-bottom: 3%;margin-right: 2%;" >
+          <div class="w3-card-4" style="width:100%;background-color: white;margin-right: 2%;">
+            <img src="/public/images/boys.jpg" alt="Alps" style="width:100%">
+            <div class="w3-container w3-center">
+              <p><b><%= co.courseName %></b></p>
+            </div>
+          </div>
+        </div></a>
+        <%}}else {%>
+          <div style="padding-bottom: 70%;">
+            <br><br><br><br><br>
+            <h3 style="color: silver;"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;There is no courses to show</h3>
+          </div>
+        <% } %>
+      </div>
+  </div>
+  <% } else{%>
+  <div class="coco" style="background-color: rgba(27, 151, 170,0.08);margin-right: 3%;padding-bottom: 2%;border-radius: 1%;height:65%;">
+    <header class="w3-container" style="padding-top:22px;margin-left: 2%;margin-right: 2%;">
+      <h3><b><i class="fa fa-film"></i> Admin Manual</b></h3>
+      <p>Please, watch the video before navigation to know all details.</p>
+    </header>
+    <video width="90%" controls style="margin-left: 5%;border-radius: 2%;">
+      <source src="/public/images/admindemo.mp4" type="video/mp4">
+      <source src="/public/images/admindemo.mp4" type="video/ogg">
+      Your browser does not support HTML video.
+    </video>
+  </div>
+  <%}%>
+  <div class="coco1" style="background-color: rgba(27, 151, 170,0.08);margin-right: 2%;padding-bottom: 2%;border-radius: 1%;">
+    <header class="w3-container" style="padding-top:22px;margin-left: 2%;margin-right: 2%;">
+      <h3><b><i class="fa fa-bullhorn"></i> My Announcements</b></h3>
+      <p>Here is a list of your Announcements. 
+       <% if(user.userRole == 'admin' || user.userRole == 'instructor') {%><a id="modalBtn" class="btn btn-dark" style="color: white;margin-left: 20%;">Add Announcement</a> <% } %>
+      </p>
+    </header>
+    <div class="row"  style="margin-right: 2%;margin-left: 2%;">
+      <% if(myann[0].length > 0){%>
+      <% for (let ann of myann[0]) { %>
+      <div class="w3-card-4" style="width:95%;margin: 3%;">
+        <header class="w3-container">
+          <h3><%= ann.title %></h3>
+        </header>
+    
+        <div class="w3-container" style="background-color: white;color: #333;">
+          <p><%= ann.description %></p>
+        </div>
+    
+        <footer class="w3-container w3-dark">
+          <h5 style="float: left;">By: <%= ann.addedBy %></h5>
+          <h5 style="float: right;">To:  <%= ann.to %></h5>
+        </footer>
+      </div>
+    <% }}else {%>
+      <center><div>
+        <p>No Available Announcements</p><br>
+        </div></center>
+    <% } %>
+    </div>
+  </div>
+</div>
+<br>
+<% if(user.userRole == 'student' || user.userRole == 'instructor') {%>
+<div style="background-color: rgba(27, 151, 170,0.08);margin-left: 2%;margin-right: 2%;padding-bottom: 2%;border-radius: 1%;">
+  <% if(user.userRole == 'student') {%>
+  <header class="w3-container" style="padding-top:22px;margin-left: 2%;margin-right: 2%;">
+    <h3><b><i class="fa fa-film"></i> Student Manual</b></h3>
+    <p>Please, watch the video before navigation to know all details.</p>
+  </header>
+  <video width="60%" controls style="margin-left: 20%;margin-right: 10%;border-radius: 2%;">
+    <source src="/public/images/studemo.mp4" type="video/mp4">
+    <source src="/public/images/studemo.mp4" type="video/ogg">
+    Your browser does not support HTML video.
+  </video>
+  <% }else if(user.userRole == 'instructor'){ %>
+    <header class="w3-container" style="padding-top:22px;margin-left: 2%;margin-right: 2%;">
+      <h3><b><i class="fa fa-film"></i> Instructor Manual</b></h3>
+      <p>Please, watch the video before navigation to know all details.</p>
+    </header>
+    <video width="60%" controls style="margin-left: 20%;margin-right: 10%;border-radius: 2%;">
+      <source src="/public/images/insdemo.mp4" type="video/mp4">
+      <source src="/public/images/insdemo.mp4" type="video/ogg">
+      Your browser does not support HTML video.
+    </video>
+  <% }else { %>
+    <header class="w3-container" style="padding-top:22px;margin-left: 2%;margin-right: 2%;">
+      <h3><b><i class="fa fa-film"></i> Other Manual</b></h3>
+      <p>Please, watch the video before navigation to know all details.</p>
+    </header>
+    <video width="60%" controls style="margin-left: 20%;margin-right: 10%;border-radius: 2%;">
+      <source src="/public/images/studemo.mp4" type="video/mp4">
+      <source src="/public/images/studemo.mp4" type="video/ogg">
+      Your browser does not support HTML video.
+    </video>
+  <% } %>
+</div>
+<% } %>
+<br>
+
+
+<div id="simpleModal" class="modal" >
+  <div class="modal-content" style="width: 30%;">
+      <div class="modal-header">
+          <span class="closeBtn">&times;</span>
+          <h4>Add New Announcement </h4>
+      </div>
+      <div class="modal-body">
+        <form action="/announce/add" method="POST">
+            
+          <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span>Title</span>
+              </div>
+              <input type="text" class="form-control" name="title" required>
+            </div>
+
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span>Description</span>
+              </div>
+              <input type="text" class="form-control" name="description" required>
+            </div>
+            <div class="form-group">
+           <label class="col-sm-3 form-control-label">To</label>
+           <div class="col-sm-9">
+            <% if(user.userRole == 'admin'){ %>
+             <select name="to" class="form-control mb-3">
+                  <option >All</option>
+                  <option >Instructors</option>
+                  <option >Students</option>
+                </select>
+            <% } else if(user.userRole == 'instructor'){ %> 
+              <select name="to" class="form-control mb-3">
+                <% for (let course of courses) { %>
+                  <option ><%= course.courseName%></option>
+              <% } %>
+              </select>
+            <% } %>
+               </div></div>
+          <div class="modal-footer">
+              <button type="submit" class="btn btn-info">
+                  Send
+              </button>
+          </div>
+      </form>
+
+      </div>
+  </div>
+</div>
+
+<script src="../../javascripts/popup.js">
+</script>  
+  </body>
+</html>

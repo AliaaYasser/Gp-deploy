@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+          <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+    .wrapper{
+            min-height: 100%;
+            margin-bottom: -50px;
+        }
+        .footer,.push{
+            height: 50px;
+        }
+        .checked {
+  color: orange;
+}
+    </style>
+
+</head>
+
+<body style="height: 100%;">
+  <% include ../viewcommn/instructornav.ejs%>
+  <% if(courses.length >0){ %>
+        <div style="height: 100%;width:90%; margin-left:5%;margin-right: 5%;">
+            <div style="text-transform: capitalize;">
+                <div >
+                    <div style="background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;">
+                        <h3><i class="fa fa-book"></i>&nbsp;<b> Courses Requst List</b></h3>
+                        <p>Here is a list of your requests for courses.</p>
+                    </div>
+              <table class="table" style="text-align:center">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Hourse</th>
+                    <th>Students</th>
+                    <th>department</th>
+                    <th>Accept</th>
+                    <th>Reject</th>
+                  </tr>
+            </thead>
+            <tbody>
+                <% for (let course of courses) { %>
+                <tr>
+                 
+                  <td><%= course.courseName%></td>
+                  <td><%= course.hourse%></td>
+                  <td><%= course.numOfStudent%></td>
+                  <td><%= course.department%></td>
+    
+                 <td> <a href="../course/Accept/<%=(course.courseName)%>"  class=" btn btn-info"><i class="fa fa-plus"></i> Accept</a></td>
+                 <td> <a href="../course/reject/<%=(course.courseName)%>" class="btn btn-danger"><i class="fas fa-times"></i>reject</a></td>
+                <% } %>
+            </tbody>
+        </table><br>
+            <p style="margin-left: 15px;"><b>To send requests to adminstration to be assigned to a course</b> <a href="requestassign" class="btn btn-info" style="color: white;">Click Here<i class="fa fa-plus"></i></a></p>
+            
+          </div>
+            </div>
+    </div>
+    <% } else { %> 
+        <div style="color: #555;background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;margin-bottom: 25%;margin-right: 5%;margin-left: 5%;" >
+            <form class="gp-form" action="" method="POST" >
+                        
+                <div>
+                    <h1><i class="fa fa-book"></i> &nbsp;<b>No Requests Found!</b></h1>
+                    <p style="margin-left: 15px;"><b>To send requests to adminstration to be assigned to a course</b> <a href="requestassign" class="btn btn-info" style="color: white;">Click Here<i class="fa fa-plus"></i></a></p>
+                </div>
+                </div>
+            </form>
+        </div>
+        <% }%>
+        <div style="margin-top: 23%;">
+            <% include ../viewcommn/footer.ejs%>
+          </div>
+
+</body>
+
+</html>

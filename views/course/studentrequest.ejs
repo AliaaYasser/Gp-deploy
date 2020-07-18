@@ -1,0 +1,72 @@
+<% if(user.userRole == 'admin') { %>
+    <% include ../viewcommn/adminComman.ejs%>
+    <% if (list.length > 0) { %>
+
+    <div style="height: 100%;width:90%;margin-left: 5%;margin-right: 5%;">
+        <div style="text-transform: capitalize;">
+            <div>
+                <div style="background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;">
+                    <h3><i class="fa fa-graduation-cap"></i>&nbsp;<b>Students Requests to courses</b></h3>
+                    <p>Here is a list of student requests to courses.</p> 
+                </div>
+  <form action="/course/enrollmultiple/request" method="post" >
+          <table class="table" style="text-align:center"> 
+                <thead >
+                    <tr> 
+                    <th>Select</th>
+                    <th>Student Name</th>
+                    <th>Course Name</th>
+                    <th>Options</th>
+                      </tr>
+                </thead>
+                <tbody>
+        
+                    <% for (let g of list) { %>
+                        <tr> 
+                         <td>  <div class="checkbox">
+                             <label><input name="selected" type="checkbox" value="<%= (g.id) %>"> </label>
+                              </div> 
+                         </td>
+                          <td><%= g.studentname %></td>
+                          <td><%= g.coursename %></td>
+        
+                          <td><div class="btn-group">
+                            <a href="/course/enrollment/<%=g.courseid %>/<%= g.studentid %>/request/<%= g.id %>"  class=" btn btn-info"><i class="fa fa-check"></i> Accept</a>
+                            <a href="/course/rejectreq/<%= g.id %>" class=" btn btn-danger"><i class="fa fa-times"></i> Reject</a>
+                            </div></td>
+                        </tr>
+                        <% } %>     
+                </tbody>
+            </table> 
+            <div class="text-center" style="float: left;"><button type="submit" class=" btn btn-info" style="color: white;">Accept selected requests</button></div><br>
+               
+        </form> 
+        </div>
+        </div>
+        <br><br><br><br><br><br>
+        </div>
+        <% } else {  %>
+                <div style="background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;margin-left: 5%;margin-right: 5%;">
+                    <h3><i class="fa fa-users"></i>&nbsp;<b> No Available Requests!</b></h3>
+                    <p>No students reuqests are avaialable now.</p>    
+                </div>
+            <% } %>
+
+    <% } else { %> 
+        <div style="margin:5%;" >
+            <form class="gp-form" action="" method="POST" >
+                <div>
+                    <h1>You don't have permission</h1>
+                </div>
+                </div>
+            </form>
+        </div>
+        <% }%>
+        <div style="margin-top: 25%;">
+            <% include ../viewcommn/footer.ejs%>
+          </div>    
+</body>
+
+
+</html>
+

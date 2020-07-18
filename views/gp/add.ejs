@@ -1,0 +1,157 @@
+
+<% include ../viewcommn/studentnav.ejs%>
+
+
+<div style="height: 100%; margin-left:5%;margin-right: 5%;">
+    <div  style="text-transform: capitalize;">
+        <div  style="color: #555;">
+<% if(allow.length > 0){ %>
+<% if(User.length > 0){ %>
+<% if(status == 'Opened'){ %>
+    <div style="background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;">
+        <h3><i class="fa fa-graduation-cap"></i>&nbsp;<b>Send Request</b></h3>
+        <p>Please, choose your doctor and write your idea in an effecient way.</p>    
+    </div>
+<br>
+<div style="background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;">
+    <h3><b>Request Form</b></h3><br>
+<form class="gp-form" action="/gp/addreq" method="POST">
+              
+    <div class="split right">
+        <div class="col-sm-10 my-1">
+
+            <h6>Doctor</h6>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"><i class="material-icons">
+                    work
+                    </i></div>
+                </div>
+                    <select name="doctorname" class="form-control" id= "doctorname" >
+                        <% for(let doc of User) { %>
+                        <option ><%= (doc.userName) %> </option>
+                                  <% } %>
+                    </select>
+            </div>
+            <br>
+            <h6>Members</h6> 
+            <p>Team leader name registered automatecally.</p>
+            <% for(var i=0; i < allow[0].members - 1 ; i++ ) { %>
+            <div class="input-group" style="padding-bottom: 1%;">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"><i class="material-icons">
+                    person
+                    </i></div>
+                </div>
+                <% if(teammembers.length > 0) {%>
+                     <input type="text" class="form-control" name="teammembers" required placeholder="<%=teammembers[i]%>" value="<%=teammembers[i]%>" disabled>
+                     <input type="text" class="form-control" name="teammembers" required placeholder="<%=teammembers[i]%>" value="<%=teammembers[i]%>" hidden>
+                <% } else {%> 
+                     <input type="text" class="form-control" name="teammembers" required>
+                <% } %>
+            </div>
+            <% } %>
+            <br>
+            <h6>Idea and Description</h6>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text"><i class="material-icons">
+                            title
+                            </i></div>
+                        </div>
+                        <textarea required class="form-control" name="ideatitle" placeholder="Your idea title"  id="ideatitle"></textarea>
+                    </div>               
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text"><i class="material-icons">
+                            description
+                            </i></div>
+                        </div>
+                        <textarea required  class="form-control" name="ideadesc" placeholder="It's a Learning system that..."  id="ideadesc"></textarea>
+                    </div>                
+                </div>
+            </div>
+        </div>
+        <input type="hidden"  name="number" value="<%= allow[0].members %>" >
+        <div class="col-auto my-1">
+          <button type="submit" class="btn btn-info">Send Request</button>
+        </div>
+    </div>
+</form>
+</div>
+<% } else {  %>
+    <div style="color: #555;background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;margin-bottom: 25%;" >
+        <form class="gp-form" action="" method="POST" >
+                    
+            <div>
+                <h2><b>Graduation Project Process is Closed Now!</b></h2>
+                <p>will be available on it's time, check again soon.</p>
+            </div>
+            </div>
+        </form>
+    </div>
+    <% } %>
+<% } else {  %>
+    <div >
+    <div style="color: #555;background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;margin-bottom: 25%;" >
+        <form class="gp-form" action="" method="POST" >
+                    
+            <div>
+                <h1><i class="fa fa-graduation-cap"></i> &nbsp; <b>You are blocked!</b></h1>
+                <p>There's no Available doctors to supervise yor.</p>
+            </div>
+            </div>
+        </form>
+    </div>
+    </div>
+    <% } %>
+<% } else {  %>
+        <div >                        
+            <div style="color: #555;background-color: rgba(27, 151, 170,0.08);padding: 2%;border-radius: 1%;margin-bottom: 25%;" >
+                    <h3><i class="fa fa-graduation-cap"></i> &nbsp;<b>You are not registered as teamleader!</b></h3>
+                    <p>If you're not on a team please start to find a team</p>
+                    <p style="margin-left: 10%;"><b>To send request to be team leader</b> <a onclick="myFunction()" class="btn btn-info" style="color: white;">Click Here<i class="fa fa-plus"></i></a></p>
+                    <div id="myDIV" style="display: none;">
+                        <form class="gp-form" action="/gp/addteam" method="POST">
+                            <div class="split right">
+                                <div class="col-sm-10 my-1">
+                                    <input type="hidden" class="form-control" name="teamleader" value="<%= user.userName %>">
+                                    <br>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                          <span class="input-group-text">Members Number</span>
+                                        </div>
+                                        <input type="number" class="form-control" name="members">
+                                      </div>
+                                </div>
+                                <div class="col-auto my-1">
+                                  <button type="submit" class="btn btn-info">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                </div>
+        </div>
+        <% } %>
+</div></div></div>
+<div class="push" style="margin-top:2%">
+<% include ../viewcommn/footer.ejs%>
+</div>
+
+<script>
+    function myFunction() {
+      var x = document.getElementById("myDIV");
+      if (x.style.display === "none") {
+        x.style.display = "block";
+      } else {
+        x.style.display = "none";
+      }
+    }
+    </script>
+</body>
+</html>

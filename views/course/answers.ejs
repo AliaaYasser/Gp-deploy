@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+
+<body style="height: 100%;">
+  <% if (user.userRole== 'instructor' ) { %>
+    <% include ../viewcommn/instructornavpost.ejs%>
+  <% } else { %>
+    <% include ../viewcommn/studentnavpost.ejs%>
+  <% } %>
+
+  <div class="row">
+    <div style="width: 90%;margin-left:5%;">
+      <div style="background-color: rgba(27, 151, 170,0.08);margin-right: 2%;padding-bottom: 10%;border-radius: 1%;">
+      <h6 class="text-center display-4 my-4" style="float: left;font-size: xx-large;margin-left: 2%;">
+        <% if(user.userRole == 'instructor') {%>
+        <i class="fa fa-edit"></i>
+        Students Answers <br>
+        &nbsp;&nbsp; <p>Here is a list of all students submitted.</p>
+        <% } else{%>
+          <i class="fa fa-edit"></i>
+          My Answer <br>
+        &nbsp;&nbsp; <p>Please upload your answer here, and will list it for you.</p>
+        <%}%>
+          
+        </h6>
+        <a href="../../fileView/<%=(cid)%>"><button type="submit" class="btn btn-info" id="addBtn" style="margin-right: 2%;float: right;margin-top: 2%;"><i class="fa fa-folder" style="color:white;"></i> 
+          Materials
+        </button></a>
+        <br>
+        
+      </div>
+      <% if (user.userRole== 'student' ) { %>
+        <% if (Studnetlist.length == 0) { %>
+          <br>
+        <form action="/uploadanswers/<%= Qid %>" id="myForm" method="POST" enctype="multipart/form-data"
+          style="float: right;">
+          <input type="file" name="file" id="file" class="btn btn-info">
+          <button class="btn btn-light" type="submit"><i class="fa fa-upload" style="color: #333;"></i> Upload</button>
+        </form>
+        <% } %>
+        <% } %>
+        <br>
+        </br>
+        <% if(files){ %>
+          <% if (user.userRole==='instructor') { %>        
+        <div>
+          
+              <% files.forEach(function(file) { %>
+                <table class="table" style="text-align:left;border: 1px solid rgba(27, 151, 170,0.08);background-color:rgba(27, 151, 170,0.08);width: 98%;border-radius: 1%;">
+                  <!-- <thead>
+                    <th style="width: 60%;">Answer</th>
+                    <th style="width: 45%;"> Assign Grade</th>
+                    <th style="width: 5%;">Download</th>
+                  </thead> -->
+                  <tbody>
+                <tr>
+                  <td style="width: 60%;">
+                  <label ><b>Answer</b></label><br>
+                    <% if(file.isImage) { %>
+                      <img src="/image/<%= file.filename %>" alt="" style="padding-bottom: 5%;float: left;" width="30%">
+                      <% } else if(file.contentType == 'video/mp4') { %>
+                      <video width="70%" controls style="padding-bottom: 5%;">
+                        <source src="/image/<%= file.filename %>" type="<%= file.contentType %>">
+                      </video>
+                      <% } else if(file.contentType === 'audio/mp3' || file.contentType === 'audio/mpeg') { %>
+                      <h5><%= file.filename %></h5>
+                      <audio controls style="padding-bottom: 5%;width: 50%;">
+                        <source src="/image/<%= file.filename %>" type="<%= file.contentType %>">
+                      </audio>
+                      <% } else { %>
+                      <h5><%= file.filename %></h5>
+            
+                      <% } %>
+                  </td>
+                 <td style="width: 45%;">
+                  <% time.forEach( function(Time) { %>
+                    <% if(file._id == Time.MatirilaId && !Time.grad){ %>
+                      <div>
+                    <label ><b>Grade</b></label>
+                    <form method="POST" action="/addGrad/<%= file._id %>/<%= Time.StudentId %>">
+                      <input name="grad" type="number"></input>
+                      &nbsp; &nbsp; <button  class="btn btn-success" type="submit"> Submit Grade</button>
+                    </form></div>
+                    <%  } %>
+                    <% }) %>
+                 </td>
+                 <td style="width: 5%;">
+                  <label ><b>Download</b></label>
+                  <a href="/Download/<%= file.filename %>" >
+                   &nbsp;&nbsp;&nbsp; <button class="btn" type="submit"><i class="fa fa-download" style="color: #333;margin-left: 5%;"></i> </button></a>
+                 </td>
+                </tr>    
+              </tbody>
+            </table> <br>
+            <% }) %>
+        </div>
+        <% } %>
+        <% } else { %>
+        <p>No files to show</p>
+        <% } %>
+
+
+        <% if(Studnetlist){ %>
+        <% if (user.userRole==='student') { %>
+        <div >
+              <% Studnetlist.forEach(function(file) { %>
+                <table class="table" style="text-align:left;border: 1px solid rgba(27, 151, 170,0.08);background-color:rgba(27, 151, 170,0.08);width: 98%;border-radius: 1%;">
+                  <!-- <thead>
+                    <th>Answer</th>
+                    <th>Grade</th>
+                    <th>Download</th>
+                    <th>Delete</th>
+                  </thead> -->
+                  <tbody>
+                <tr>
+                  <td style="width: 85%;">
+                  <label ><b>Answer</b></label><br>
+                    <% if(file.isImage) { %>
+                      <img src="/image/<%= file.filename %>" alt="" style="padding-bottom: 5%;float: left;" width="30%">
+                      <% } else if(file.contentType == 'video/mp4') { %>
+                      <video width="70%" controls style="padding-bottom: 5%;">
+                        <source src="/image/<%= file.filename %>" type="<%= file.contentType %>">
+                      </video>
+                      <% } else if(file.contentType === 'audio/mp3' || file.contentType === 'audio/mpeg') { %>
+                      <h5><%= file.filename %></h5>
+                      <audio controls style="padding-bottom: 5%;width: 50%;">
+                        <source src="/image/<%= file.filename %>" type="<%= file.contentType %>">
+                      </audio>
+                      <% } else { %>
+                      <h5><%= file.filename %></h5>
+            
+                      <% } %>
+                  </td>
+                 <td style="width: 5%;">
+                  <div>
+                  <label ><b>Grade</b></label>
+                    <% time.forEach( function(Time) { %>
+                    <% if(file._id == Time.MatirilaId){ %>
+                      <% if(Time.grad){ %>
+                    <label> <%= Time.grad %></label>
+                    <% } %>
+                    <% } %>
+                    <% }) %>        
+                  </div>
+                 </td>
+                 <td style="width: 5%;">
+                  <label ><b>Download</b></label>
+                  &nbsp;&nbsp;&nbsp; <a href="/Download/<%= file.filename %>" > <button class="btn"
+                    type="submit"><i class="fa fa-download" style="color: #333;"></i> </button></a>
+                 </td>
+                 <td style="width: 5%;">
+                  <label ><b>Delete</b></label>
+                  <a>
+                    <form method="POST" action="/filess/<%= file._id %>">
+                      <a><button class="btn" type="submit"
+                          style="color: white;"><i class="fa fa-trash" style="color: rgb(202, 48, 48);;"></i></button></a>
+                    </form>
+                  </a>
+                 </td>
+                </tr>
+            </tbody>
+          </table><br>
+                <% }) %>
+        </div>
+        
+        <% }} else { %>
+          <p>No files to show</p>
+          <% } %>
+    </div>
+  </div>
+
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+    <div style="margin-top: 25%;">
+      <% include ../viewcommn/footer.ejs%>
+    </div>
+
+</body>
+<script>
+  function settime(dedline, id) {
+    CountDownTimer(Date.parse(dedline), id);
+  }
+
+  function CountDownTimer(dt, id) {
+    if (dt) {
+
+      var end = new Date(dt);
+      var _second = 1000;
+      var _minute = _second * 60;
+      var _hour = _minute * 60;
+      var _day = _hour * 24;
+      var timer;
+
+      function showRemaining() {
+        var now = new Date();
+        var distance = end - now;
+        if (distance < 0) {
+
+          clearInterval(timer);
+          document.getElementById(id).innerHTML = 'EXPIRED!';
+
+          return;
+        }
+        var days = Math.floor(distance / _day);
+        var hours = Math.floor((distance % _day) / _hour);
+        var minutes = Math.floor((distance % _hour) / _minute);
+        var seconds = Math.floor((distance % _minute) / _second);
+
+        document.getElementById(id).innerHTML = days + 'days ';
+        document.getElementById(id).innerHTML += hours + 'hrs ';
+        document.getElementById(id).innerHTML += minutes + 'mins ';
+        document.getElementById(id).innerHTML += seconds + 'secs';
+      }
+
+      timer = setInterval(showRemaining, 1000);
+    }
+    else {
+      document.getElementById(id).innerHTML = 'No Dedline';
+    }
+  }
+
+</script>
+
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../public/stylesheets/viewstyle.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
+            integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../../public/stylesheets/navigation.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <title>I Learn</title>
+    <link rel="shortcut icon" href="../../public/images/i learn.png"  type="image/png" />
+    <style>
+      .alert-warning {
+      color: firebrick;
+      background-color: #fea1a1;
+      border-color: #b47171;
+  }
+  .tomm{
+    color: red;
+  }
+  .tonn{
+    color: #333;
+  }
+    </style>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg" style="background-color: white;">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button><input type="hidden" value="<%=user._id%>" id="userid">
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+      <img src="/public/images/i learn.png" width="25" height="30" style="color: white;">
+      <a class="navbar-brand" href="/student" style="color: #333;font-family:fantasy;font-size: 25px;"> &nbsp; <%= user.userName %></a>
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      
+      </ul>
+      <div>
+        <div class="dropdown">
+          <a id="ann" onclick="myFunction()" style="color: #333;cursor: pointer;"><span class="fas fa-bell"  id="ann2" style="padding-right: 10px;" title="notifications"></span></a>
+           <div class="dropdown" style="right: 50%;">
+            <div id="myDropdown" class="dropdown-content"style="list-style: none;">
+              <div style="background-color: white;color: #333;padding-top: 5%;">
+                  </h4>
+                <h4><b>Notifications</b></h4>
+                <p>list of all notifications that sent to you.</p>
+                </p>
+            
+              </div>
+              <% if(mynotfi.length > 0 ){%>
+                <% for (let notfi of mynotfi) { %>
+              <div id="notfiRequets" style="background-color: rgba(27, 151, 170,0.08);margin-left: 2%;margin-right: 2%;margin-bottom: 3%;border-radius: 1%;">
+              <p><%= notfi.notfiContant %></p>
+              <!-- <p style="float: right;font-size: small;">by: <%= notfi.userName %> </p> -->
+              </div>
+              <% } }else {%>
+                <center><div>
+                  <p>No Available Notifications</p><br>
+                  </div></center>
+              <% } %>
+              </div>
+      </div>
+        </div>
+      </div>
+        <!-- <span class="fas fa-bell" style="padding-right: 10px;" title="notifications"></span> -->
+        <!-- <a href="/announce/announcement" style="color: #333;"><span class="fas fa-bullhorn" style="padding-right: 20px;" title="announcements"></span></a> -->
+        <a href="/logout"><button type="button" class="btn btn-danger" >LogOut!</button></a>
+    </div>
+    </div>
+  </nav>
+<div class="navbar">
+    <!-- <img src="/public/images/i learnn.png" alt="Nature" class="responsive" width="500" height="200" style="margin-left: 30%;margin-bottom: 10%;margin-top: 3%;">  -->
+
+    <div id="mySidenav" class="sidenav">
+      <a href="/student" id="home">Home</a>
+      <!-- <a href="../course/list_student" id="reg">Courses</a> -->
+<% if(user.level == 'level 4') {%>
+      <a href="/gp/list" id="reg">Seniors</a>
+      <a href="/course/courserating" id="course">Rating</a>
+<% }else {%>
+<a href="/course/courserating" id="reg">Rating</a>
+<% } %>
+      </div>
+</div>
+
+
+<script>
+        /* When the user clicks on the button,
+        toggle between hiding and showing the dropdown content */
+        function myFunction() {
+          document.getElementById("myDropdown").classList.toggle("show");
+        }
+</script>
+<script src="../../public/javascripts/push.min.js"></script>
+<script>
+  $('#notify-button').click(function(){
+    Push.create("Hello world!", {
+    body: "How's it hangin'?",
+    icon: '../../public/images/i Learn.png',
+    timeout: 4000,
+    onClick: function () {
+        window.focus();
+        this.close();
+    }
+});
+  });
+
+</script>
+<script src = "/socket.io/socket.io.js"></script>
+<script src="../../public/javascripts/sockets/init.js"></script>

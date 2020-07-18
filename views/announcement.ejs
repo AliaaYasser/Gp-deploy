@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/public/stylesheets/ann.css">
+<link rel="stylesheet" href="../../public/stylesheets/popup.css">
+
+</head>
+<body style="background-color: rgb(249,249,249);">
+<% if(user.userRole == 'admin') {%>
+<% include viewcommn/adminComman.ejs%>
+<% } else if(user.userRole == 'student'){%>
+<% include viewcommn/studentnav.ejs%>
+<% } else {%>
+<% include viewcommn/instructornav.ejs%>
+<%}%>
+<center>
+    <h2><b>Announcements</b>
+    <% if(user.userRole == 'admin') {%><a id="modalBtn" class="btn btn-dark" style="color: white;">Add Announcement</a> <% } %>
+    </h2>
+</center>
+<% i=0 %>
+<% if(list.length > 0 ){%>
+    <% for (let ann of list[0]) { %>
+
+<div class="timeline"> 
+<% if( i % 2  === 0 ){ %>
+  <div class="cont left">
+    <div class="content">
+      <h2><%= ann.title %></h2>
+      <p><%= ann.description %></p>
+      <p  style="float: right;">By: <%= ann.addedBy %></p><br>
+    </div>
+  </div>
+  <% } else { %>
+  <div class="cont right">
+    <div class="content">
+        <h2><%= ann.title %></h2>
+        <p><%= ann.description %></p>
+        <p  style="float: right;">By: <%= ann.addedBy %></p><br>
+    </div>
+  </div>
+  <% } %>
+  <br>
+</div>
+<% i++ } }else {%>
+    <center><div>
+      <p>No Available Announcements</p><br>
+      </div></center>
+<% } %>
+
+<% include viewcommn/footer.ejs%>
+
+<div id="simpleModal" class="modal" >
+    <div class="modal-content" style="width: 30%;">
+        <div class="modal-header">
+            <span class="closeBtn">&times;</span>
+            <h4>Add New Announcement </h4>
+        </div>
+        <div class="modal-body">
+          <form action="/announce/add" method="POST">
+              
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span>Title</span>
+                </div>
+                <input type="text" class="form-control" name="title" required>
+              </div>
+
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span>Description</span>
+                </div>
+                <input type="text" class="form-control" name="description" required>
+              </div>
+              <div class="form-group">
+             <label class="col-sm-3 form-control-label">To</label>
+             <div class="col-sm-9">
+               <select name="to" class="form-control mb-3">
+                    <option >All</option>
+                    <option >Instructors</option>
+                    <option >Students</option>
+                  </select>
+                 </div></div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-info">
+                    Send
+                </button>
+            </div>
+        </form>
+
+        </div>
+    </div>
+</div>
+
+<script src="../../javascripts/popup.js">
+</script>  
+
+
+</body>
+</html>
